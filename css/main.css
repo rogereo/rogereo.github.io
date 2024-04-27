@@ -63,12 +63,12 @@
   .blog-subtitle {
     display: block;
     color: #333;
-    font-size: 26px;
+    font-size: 26px !important; /* Added !important to ensure this style is applied */
     letter-spacing: -1px;
     line-height: 56px;
     position: relative;
     z-index: 1;
-    float: none; /* This ensures the subtitle doesn't float if it's not needed */
+    float: none;
   }
   
   .site-nav {
