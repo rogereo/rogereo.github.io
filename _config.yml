@@ -1,0 +1,18 @@
+# Site settings
+title: Roger Arendse
+email: 
+description: "Aspiring AI/ML Engineer"
+baseurl: ""
+url: "http://rogereo.github.io"
+twitter_username: rogereo
+github_username:  rogereo
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+highlighter: rouge
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
