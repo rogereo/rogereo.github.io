@@ -1,4 +1,1 @@
-# Heading 1
-This is a test 
-
-## Heading 2
+This mammal type classifier was built using a pretrained neural network. The classifier can identify and categorize mammals into five primary groups: primates, rodents, ungulates, carnivores, and marsupials.
