@@ -9,7 +9,9 @@
 
     <div class="page-content">
       <div class="wrap">
-      <h2 class="blog-subtitle">Blog</h2>
+      {% if page.url == "/" %}
+        <h2 class="blog-subtitle">Blog</h2>
+      {% endif %}
       {{ content }}
       </div>
     </div>
