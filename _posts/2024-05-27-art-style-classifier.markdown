@@ -1,0 +1,1 @@
+Built using a pretrained neural network. This classifier can identify and categorize art into three style groups: Cubism, Surrealism, and Abstract Expressionism.
