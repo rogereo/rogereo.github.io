@@ -7,4 +7,4 @@ date:   2024-05-29 00:00:00
 mathjax: false
 ---
 
-An AI chess system built using an open source chess engine called Stockfish. Hosted in Gradio. 
+An AI chess system built using an open source chess engine called Stockfish. Hosted in Gradio
