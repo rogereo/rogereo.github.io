@@ -191,7 +191,7 @@
     color: #555;
     text-align: right;
     margin-right: 20px; /* Adjust this value to align with the end of 'About' */
-    margin-bottom: 5px; /* Reduce the space between the quote and subtitle */
+    margin-bottom: 15px; /* Reduce the space between the quote and subtitle */
   }
 
   .quote {
