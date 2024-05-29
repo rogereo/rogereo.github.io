@@ -191,7 +191,8 @@
     color: #555;
     text-align: right;
     margin-right: 20px; /* Adjust this value to align with the end of 'About' */
-    margin-bottom: 15px; /* Reduce the space between the quote and subtitle */
+    margin-top: -10px; /* Adjust to reduce the space above the quote */
+    margin-bottom: 0px; /* Reduce the space between the quote and subtitle */
   }
 
   .quote {
@@ -199,6 +200,7 @@
     color: #555;
     text-align: right;
     margin-bottom: 10px;
+    margin-top: 0px; /* Ensure there is no additional margin on top */
   }
   
   .post-header .meta {
