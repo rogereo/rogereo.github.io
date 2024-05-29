@@ -192,6 +192,13 @@
     margin: 20px 0;
     color: #555;
   }
+
+  .quote {
+    font-style: italic;
+    color: #555;
+    text-align: right;
+    margin-bottom: 10px;
+  }
   
   .post-header .meta {
     font-size: 15px;
