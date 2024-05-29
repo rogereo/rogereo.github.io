@@ -186,6 +186,13 @@
     font-weight: 300;
   }
   
+  .quote {
+    font-style: italic;
+    text-align: center;
+    margin: 20px 0;
+    color: #555;
+  }
+  
   .post-header .meta {
     font-size: 15px;
     color: #818181;
