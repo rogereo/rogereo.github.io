@@ -452,3 +452,16 @@
       margin: 0 0 15px; }
   
   }
+
+  /* add tag under blog post summary */
+  .tag, a.tag {
+    display: inline-block;
+    vertical-align: central;
+    font-family: monospace;
+    font-size: 90%;
+    line-height: 1.5em;
+    padding: 0 .5em;
+    color: #007bff;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
