@@ -103,6 +103,17 @@
   justify-content: space-between;
   align-items: flex-start;
 }
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: black;
+  z-index: 1000;
+  transition: width 0.2s ease-out;
+}
   
   .footer-heading {
     font-size: 18px;
@@ -112,6 +123,16 @@
   }
   
   .site-footer .column { float: left; margin-bottom: 15px; }
+
+  .site-footer .username {
+  color: black;
+  text-decoration: none;
+}
+
+.site-footer .username:hover {
+  color: #505050;
+  text-decoration: underline;
+}
   
   .footer-col-1 {
     width: 270px; /*fallback*/
@@ -119,7 +140,7 @@
     width: -moz-calc(35% - 10px);
     width: -o-calc(35% - 10px);
     width: calc(35% - 10px);
-    margin-right: 10px
+    margin-right: 10px;
   }
   .footer-col-2 {
     width: 175px; /*fallback*/
@@ -144,7 +165,7 @@
   .site-footer p {
     font-size: 15px;
     letter-spacing: -.3px;
-    color: #828282;
+    color: black;
   }
   
   .github-icon-svg,
@@ -154,6 +175,7 @@
     height: 16px;
     position: relative;
     top: 3px;
+    fill: black;
   }
   
   
@@ -179,6 +201,7 @@
     font-size: 20px;
     letter-spacing: -1px;
     line-height: 1;
+    color: black;
   }
   
   .posts .post-date {
@@ -471,11 +494,11 @@
   .tag, a.tag {
     display: inline-block;
     vertical-align: central;
-    font-family: monospace;
+    font-family: Helvetica;
     font-size: 90%;
     line-height: 1.5em;
     padding: 0 .5em;
-    color: #007bff;
-    background-color: #f2f2f2;
+    color: white;
+    background-color: black;
     border-radius: 5px;
 }
