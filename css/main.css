@@ -56,7 +56,7 @@
   .site-title:hover,
   .site-title:visited {
     display: block;
-    color: #606060;
+    color: #333;
     font-size: 26px;
     font-family: Helvetica;
     letter-spacing: -1px;
