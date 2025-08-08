@@ -11,4 +11,4 @@ Right now, in my free time I focus on exploring the end-to-end process of buildi
 
 I started this blog to learn—to improve how I think, write, and build. It’s a space to explore and express ideas that interest me.
 
-If you’re curious about AI—or coming from a path less traveled—I hope this encourages you to explore, too.
+If you’re curious, and coming from a path less traveled—I hope this encourages you to explore, too.
