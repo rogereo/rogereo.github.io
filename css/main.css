@@ -180,15 +180,30 @@
     fill: black;
   }
   
-  .footer-col-1 .fab {
-  width: 16px;
-  height: 16px;
-  position: relative;
-  top: 3px;
-  color: black;
-  margin-right: 5px;
-}
-  
+
+  .fa-instagram,
+  .fa-twitter,
+  .fa-github {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 3px;
+    color: black;
+    margin-right: 5px;
+  }
+
+    .fab.fa-goodreads {
+    font-family: Helvetica;
+    font-size: 16px;          /* Match other icon sizes */
+    position: relative;
+    top: 2px;                 /* Align with other icons */
+    margin-right: 6px;        /* Space between icon and username */
+    color: black;
+    background: none;         /* Remove any background */
+    border: none;             /* Remove any border */
+    padding: 0;              /* Remove any padding */
+  }
+
   /* Page Content styles */
   /* ----------------------------------------------------------*/
   
