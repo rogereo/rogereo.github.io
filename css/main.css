@@ -180,6 +180,14 @@
     fill: black;
   }
   
+  .footer-col-1 .fab {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 3px;
+  color: black;
+  margin-right: 5px;
+}
   
   /* Page Content styles */
   /* ----------------------------------------------------------*/
