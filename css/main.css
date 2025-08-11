@@ -169,7 +169,9 @@
   }
   
   .github-icon-svg,
-  .twitter-icon-svg {
+  .twitter-icon-svg,
+  .goodreads-icon-svg,
+  .instagram-icon-svg {
     display: inline-block;
     width: 16px;
     height: 16px;

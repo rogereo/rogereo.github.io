@@ -6,6 +6,8 @@ baseurl: ""
 url: "http://rogereo.github.io"
 twitter_username: rogereo
 github_username:  rogereo
+goodreads_username: rogereo
+instagram_username: rogereo11
 
 # Build settings
 markdown: kramdown
