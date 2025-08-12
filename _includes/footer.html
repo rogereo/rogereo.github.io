@@ -13,37 +13,37 @@
     </div> 
     -->
 
-      <div class="footer-col-1 column">
-      <ul>
-        {% if site.github_username %}<li>
+    <div class="footer-col-1 column">
+      <div class="social-icons">
+        {% if site.github_username %}
           <a href="https://github.com/{{ site.github_username }}">
             <i class="fab fa-github"></i>
-            <span class="username">{{ site.github_username }}</span>
           </a>
-        </li>{% endif %}
-        
-        {% if site.twitter_username %}<li>
+        {% endif %}
+
+        {% if site.twitter_username %}
           <a href="https://twitter.com/{{ site.twitter_username }}">
             <i class="fab fa-twitter"></i>
-            <span class="username">{{ site.twitter_username }}</span>
           </a>
-        </li>{% endif %}
-        
-        {% if site.goodreads_username %}<li>
-          <a href="https://goodreads.com/{{ site.goodreads_username }}">
-            <span class="fab fa-goodreads">g</span>
-            <span class="username">{{ site.goodreads_username }}</span>
-          </a>
-        </li>{% endif %}
-          
-        {% if site.instagram_username %}<li>
+        {% endif %}
+
+        {% if site.instagram_username %}
           <a href="https://instagram.com/{{ site.instagram_username }}">
             <i class="fab fa-instagram"></i>
-            <span class="username">{{ site.instagram_username }}</span>
           </a>
-        </li>{% endif %}
-      </ul>
+        {% endif %}
+
+        {% if site.goodreads_username %}
+          <a href="https://goodreads.com/{{ site.goodreads_username }}">
+            <span class="goodreads-icon">g</span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="username-container">
+        <span class="username">   rogereo</span>
+      </div>
     </div>
+
 
     <div class="footer-col-2 column">
       <p class="text"></p>
