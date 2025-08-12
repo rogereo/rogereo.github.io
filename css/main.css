@@ -127,12 +127,15 @@
   .site-footer .username {
   color: black;
   text-decoration: none;
+  margin-left: 12px; 
 }
 
+/*f
 .site-footer .username:hover {
   color: #505050;
   text-decoration: underline;
 }
+*/
   
   .footer-col-1 {
     width: 270px; /*fallback*/
@@ -181,29 +184,27 @@
   }
   
 
-  .fa-instagram,
+  .fa-instagram, 
   .fa-twitter,
-  .fa-github {
+  .fa-github,
+  .goodreads-icon {
     width: 16px;
     height: 16px;
     position: relative;
     top: 3px;
     color: black;
-    margin-right: 5px;
+    margin-right: 4px;
+    text-decoration: none;
   }
 
-    .fab.fa-goodreads {
-    font-family: Helvetica;
-    font-size: 16px;          /* Match other icon sizes */
-    position: relative;
-    top: 2px;                 /* Align with other icons */
-    margin-right: 6px;        /* Space between icon and username */
-    color: black;
-    background: none;         /* Remove any background */
-    border: none;             /* Remove any border */
-    padding: 0;              /* Remove any padding */
+  .goodreads-icon {
+    font-family: Baskerville;
+    font-size: 16px;
+    display: inline-block;
+    background: none;
+    border: none;
+    top: 1px;
   }
-
   /* Page Content styles */
   /* ----------------------------------------------------------*/
   
