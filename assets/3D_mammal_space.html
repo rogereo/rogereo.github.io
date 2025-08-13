@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Mammal Taxonomic Space</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            overflow: hidden;
+        }
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        #title {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        #legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 4px 0;
+            font-size: 12px;
+        }
+        #distance-tool {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 250px;
+        }
+        #distance-tool h3 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        #animal-input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        #connect-btn {
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100%;
+        }
+        #connect-btn:hover {
+            background: #555;
+        }
+        #distance-info {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #666;
+        }
+        .clear-btn {
+            margin-top: 6px;
+            padding: 4px 8px;
+            background: #888;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            width: 100%;
+        }
+        .clear-btn:hover {
+            background: #aaa;
+        }
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <div id="title">3D Mammal Taxonomic Space</div>
+        <div id="legend">
+            <div class="legend-item">
+                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: white; border: 2px solid #B22222; margin-right: 8px;"></span>
+                <span>Carnivores</span>
+            </div>
+            <div class="legend-item">
+                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: white; border: 2px solid #008080; margin-right: 8px;"></span>
+                <span>Marsupials</span>
+            </div>
+            <div class="legend-item">
+                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: white; border: 2px solid #4B0082; margin-right: 8px;"></span>
+                <span>Primates</span>
+            </div>
+            <div class="legend-item">
+                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: white; border: 2px solid #228B22; margin-right: 8px;"></span>
+                <span>Rodents</span>
+            </div>
+            <div class="legend-item">
+                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: white; border: 2px solid #DAA520; margin-right: 8px;"></span>
+                <span>Ungulates</span>
+            </div>
+        </div>
+        <div id="distance-tool">
+            <h3>Animal Connection</h3>
+            <input type="text" id="animal-input" placeholder="e.g., zebra, leopard, bear">
+            <button id="connect-btn">Connect Animals</button>
+            <button class="clear-btn" id="clear-connections">Clear Connections</button>
+            <div id="distance-info"></div>
+        </div>
+        <div id="tooltip"></div>
+    </div>
+
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(15, 15, 15);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        directionalLight.position.set(10, 10, 5);
+        scene.add(directionalLight);
+
+        // Grid Helper with lighter lines
+        const gridHelper = new THREE.GridHelper(20, 20, 0xe0e0e0, 0xf0f0f0);
+        scene.add(gridHelper);
+
+        // Create custom axes with labels
+        const axesGroup = new THREE.Group();
+        
+        // X-axis (red -> black)
+        const xGeometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(12, 0, 0)
+        ]);
+        const xMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+        const xAxis = new THREE.Line(xGeometry, xMaterial);
+        axesGroup.add(xAxis);
+        
+        // Y-axis (green -> black)
+        const yGeometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, 12, 0)
+        ]);
+        const yMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+        const yAxis = new THREE.Line(yGeometry, yMaterial);
+        axesGroup.add(yAxis);
+        
+        // Z-axis (blue -> black)
+        const zGeometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, 0, 12)
+        ]);
+        const zMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+        const zAxis = new THREE.Line(zGeometry, zMaterial);
+        axesGroup.add(zAxis);
+        
+        scene.add(axesGroup);
+        
+        // Add axis labels
+        function createAxisLabel(text, position) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 64;
+            canvas.height = 64;
+            context.font = 'bold 48px Arial';
+            context.fillStyle = 'black';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(text, 32, 32);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.copy(position);
+            sprite.scale.set(1, 1, 1);
+            return sprite;
+        }
+        
+        scene.add(createAxisLabel('X', new THREE.Vector3(13, 0, 0)));
+        scene.add(createAxisLabel('Y', new THREE.Vector3(0, 13, 0)));
+        scene.add(createAxisLabel('Z', new THREE.Vector3(0, 0, 13)));
+
+        // Animal emoji representations
+        const animalEmojis = {
+            'Bears': '🐻',
+            'Leopards': '🐆',
+            'Lions': '🦁',
+            'Tigers': '🐅',
+            'Wolves': '🐺',
+            'Kangaroos': '🦘',
+            'Koalas': '🐨',
+            'Opossums': '🦫',
+            'Wallabies': '🦘',
+            'Wombats': '🦫',
+            'Baboons': '🐵',
+            'Capuchin Monkeys': '🐒',
+            'Chimpanzees': '🦍',
+            'Gorillas': '🦍',
+            'Orangutans': '🦧',
+            'Beavers': '🦫',
+            'Mice': '🐭',
+            'Porcupines': '🦔',
+            'Rats': '🐀',
+            'Squirrels': '🐿️',
+            'Deer': '🦌',
+            'Elk': '🦌',
+            'Giraffes': '🦒',
+            'Moose': '🦌',
+            'Zebras': '🦓'
+        };
+
+        // Data structure - positions based on morphological similarity
+        const groups = {
+            Carnivores: {
+                color: 0xB22222,
+                hexColor: '#B22222',
+                animals: ['Bears', 'Leopards', 'Lions', 'Tigers', 'Wolves'],
+                center: [-4, 2, -3]  // Moderate position - similar body structure
+            },
+            Marsupials: {
+                color: 0x008080,
+                hexColor: '#008080',
+                animals: ['Kangaroos', 'Koalas', 'Opossums', 'Wallabies', 'Wombats'],
+                center: [8, -3, 7]  // Far from others - unique pouched mammals
+            },
+            Primates: {
+                color: 0x4B0082,
+                hexColor: '#4B0082',
+                animals: ['Baboons', 'Capuchin Monkeys', 'Chimpanzees', 'Gorillas', 'Orangutans'],
+                center: [-7, 6, 5]  // Distant - unique hands/feet, forward-facing eyes
+            },
+            Rodents: {
+                color: 0x228B22,
+                hexColor: '#228B22',
+                animals: ['Beavers', 'Mice', 'Porcupines', 'Rats', 'Squirrels'],
+                center: [3, -1, -6]  // Small mammals, somewhat isolated
+            },
+            Ungulates: {
+                color: 0xDAA520,
+                hexColor: '#DAA520',
+                animals: ['Deer', 'Elk', 'Giraffes', 'Moose', 'Zebras'],
+                center: [-1, 1, 2]  // Central - hoofed, herbivorous, similar body plans
+            }
+        };
+
+        // Create animal texture function
+        function createAnimalSprite(animal, groupColor) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const size = 256;
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Create circular background with group color
+            context.fillStyle = groupColor;
+            context.beginPath();
+            context.arc(size/2, size/2, size/2 - 10, 0, Math.PI * 2);
+            context.fill();
+            
+            // Add white circle for emoji background
+            context.fillStyle = 'white';
+            context.beginPath();
+            context.arc(size/2, size/2, size/2 - 20, 0, Math.PI * 2);
+            context.fill();
+            
+            // Add border
+            context.strokeStyle = groupColor;
+            context.lineWidth = 8;
+            context.beginPath();
+            context.arc(size/2, size/2, size/2 - 14, 0, Math.PI * 2);
+            context.stroke();
+            
+            // Draw emoji
+            context.font = 'bold 140px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(animalEmojis[animal] || '🐾', size/2, size/2);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            
+            const spriteMaterial = new THREE.SpriteMaterial({ 
+                map: texture,
+                sizeAttenuation: true
+            });
+            
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.scale.set(1.5, 1.5, 1);
+            
+            return sprite;
+        }
+
+        // Create points for each group
+        const animalSprites = [];
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const tooltip = document.getElementById('tooltip');
+
+        Object.entries(groups).forEach(([groupName, groupData]) => {
+            // Create cluster center indicator (larger, semi-transparent sphere)
+            const centerGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+            const centerMaterial = new THREE.MeshPhongMaterial({ 
+                color: groupData.color,
+                transparent: true,
+                opacity: 0.2
+            });
+            const centerMesh = new THREE.Mesh(centerGeometry, centerMaterial);
+            centerMesh.position.set(...groupData.center);
+            scene.add(centerMesh);
+
+            // Create individual animal sprites
+            groupData.animals.forEach((animal, index) => {
+                const angle = (index / groupData.animals.length) * Math.PI * 2;
+                const radius = 2.5;
+                const heightVariation = (Math.random() - 0.5) * 1.5;
+                
+                const x = groupData.center[0] + Math.cos(angle) * radius + (Math.random() - 0.5) * 0.8;
+                const y = groupData.center[1] + heightVariation;
+                const z = groupData.center[2] + Math.sin(angle) * radius + (Math.random() - 0.5) * 0.8;
+                
+                const sprite = createAnimalSprite(animal, groupData.hexColor);
+                sprite.position.set(x, y, z);
+                sprite.userData = { group: groupName, animal: animal };
+                
+                scene.add(sprite);
+                animalSprites.push(sprite);
+
+                // Create connecting line to center
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(...groupData.center),
+                    new THREE.Vector3(x, y, z)
+                ]);
+                const lineMaterial = new THREE.LineBasicMaterial({ 
+                    color: groupData.color, 
+                    opacity: 0.15, 
+                    transparent: true 
+                });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(line);
+            });
+
+            // Add group label
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 64;
+            context.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            context.fillRect(0, 0, 256, 64);
+            context.font = 'bold 30px Arial';
+            context.fillStyle = '#333';
+            context.textAlign = 'center';
+            context.fillText(groupName, 128, 40);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(groupData.center[0], groupData.center[1] + 3.5, groupData.center[2]);
+            sprite.scale.set(4, 1, 1);
+            scene.add(sprite);
+        });
+
+        // Store connection lines
+        const connectionLines = [];
+        
+        // Function to find animal sprite by name
+        function findAnimalSprite(name) {
+            const normalizedName = name.trim().toLowerCase();
+            for (let sprite of animalSprites) {
+                const animalName = sprite.userData.animal.toLowerCase();
+                if (animalName === normalizedName || 
+                    animalName.includes(normalizedName) || 
+                    normalizedName.includes(animalName.replace(/s$/, ''))) {
+                    return sprite;
+                }
+            }
+            return null;
+        }
+        
+        // Function to calculate 3D distance
+        function calculate3DDistance(pos1, pos2) {
+            const dx = pos1.x - pos2.x;
+            const dy = pos1.y - pos2.y;
+            const dz = pos1.z - pos2.z;
+            return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        }
+        
+        // Function to create connection lines between animals
+        function connectAnimals() {
+            const input = document.getElementById('animal-input').value;
+            const animalNames = input.split(',').map(name => name.trim()).filter(name => name);
+            
+            if (animalNames.length < 2) {
+                document.getElementById('distance-info').innerHTML = 
+                    '<span style="color: #d9534f;">Please enter at least 2 animals separated by commas</span>';
+                return;
+            }
+            
+            // Clear previous connections
+            clearConnections();
+            
+            const foundAnimals = [];
+            const notFound = [];
+            
+            // Find all animals
+            for (let name of animalNames) {
+                const sprite = findAnimalSprite(name);
+                if (sprite) {
+                    foundAnimals.push(sprite);
+                } else {
+                    notFound.push(name);
+                }
+            }
+            
+            if (foundAnimals.length < 2) {
+                document.getElementById('distance-info').innerHTML = 
+                    `<span style="color: #d9534f;">Could not find: ${notFound.join(', ')}</span>`;
+                return;
+            }
+            
+            // Create connections between all pairs
+            let distanceInfo = '<strong>Distances:</strong><br>';
+            for (let i = 0; i < foundAnimals.length; i++) {
+                for (let j = i + 1; j < foundAnimals.length; j++) {
+                    const sprite1 = foundAnimals[i];
+                    const sprite2 = foundAnimals[j];
+                    
+                    // Create line
+                    const points = [sprite1.position, sprite2.position];
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    const material = new THREE.LineBasicMaterial({ 
+                        color: 0xFF0000, 
+                        linewidth: 2,
+                        opacity: 0.8,
+                        transparent: true
+                    });
+                    const line = new THREE.Line(geometry, material);
+                    scene.add(line);
+                    connectionLines.push(line);
+                    
+                    // Calculate distance
+                    const distance = calculate3DDistance(sprite1.position, sprite2.position);
+                    distanceInfo += `${sprite1.userData.animal} ↔ ${sprite2.userData.animal}: ${distance.toFixed(2)}<br>`;
+                }
+            }
+            
+            if (notFound.length > 0) {
+                distanceInfo += `<br><span style="color: #f0ad4e;">Not found: ${notFound.join(', ')}</span>`;
+            }
+            
+            document.getElementById('distance-info').innerHTML = distanceInfo;
+        }
+        
+        // Function to clear all connection lines
+        function clearConnections() {
+            connectionLines.forEach(line => {
+                scene.remove(line);
+                line.geometry.dispose();
+                line.material.dispose();
+            });
+            connectionLines.length = 0;
+            document.getElementById('distance-info').innerHTML = '';
+        }
+        
+        // Event listeners for distance tool
+        document.getElementById('connect-btn').addEventListener('click', connectAnimals);
+        document.getElementById('clear-connections').addEventListener('click', () => {
+            clearConnections();
+            document.getElementById('animal-input').value = '';
+        });
+        document.getElementById('animal-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                connectAnimals();
+            }
+        });
+
+        // Mouse interaction
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(animalSprites);
+
+            if (intersects.length > 0) {
+                const object = intersects[0].object;
+                const data = object.userData;
+                tooltip.innerHTML = `<strong>${animalEmojis[data.animal]} ${data.animal}</strong><br>Group: ${data.group}`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = event.clientX + 10 + 'px';
+                tooltip.style.top = event.clientY - 30 + 'px';
+                document.body.style.cursor = 'pointer';
+            } else {
+                tooltip.style.display = 'none';
+                document.body.style.cursor = 'default';
+            }
+        }
+
+        window.addEventListener('mousemove', onMouseMove);
+
+        // Simple orbit controls
+        let mouseDown = false;
+        let mouseButton = 0;
+        let mouseX = 0;
+        let mouseY = 0;
+        let cameraRadius = 25;
+        let cameraTheta = Math.PI / 4;
+        let cameraPhi = Math.PI / 3;
+        let panOffset = new THREE.Vector3(0, 0, 0);
+
+        renderer.domElement.addEventListener('mousedown', (e) => {
+            mouseDown = true;
+            mouseButton = e.button;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => {
+            mouseDown = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!mouseDown) return;
+
+            const deltaX = e.clientX - mouseX;
+            const deltaY = e.clientY - mouseY;
+
+            if (mouseButton === 0) { // Left click - rotate
+                cameraTheta -= deltaX * 0.01;
+                cameraPhi = Math.max(0.1, Math.min(Math.PI - 0.1, cameraPhi - deltaY * 0.01));
+            } else if (mouseButton === 2) { // Right click - pan
+                const panSpeed = 0.05;
+                panOffset.x -= deltaX * panSpeed;
+                panOffset.y += deltaY * panSpeed;
+            }
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        renderer.domElement.addEventListener('wheel', (e) => {
+            cameraRadius = Math.max(10, Math.min(50, cameraRadius + e.deltaY * 0.01));
+        });
+
+        renderer.domElement.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Animation loop
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            // Gentle floating animation for animal sprites
+            animalSprites.forEach((sprite, index) => {
+                sprite.position.y += Math.sin(time + index * 0.5) * 0.002;
+            });
+
+            // Update camera position
+            camera.position.x = cameraRadius * Math.sin(cameraPhi) * Math.cos(cameraTheta) + panOffset.x;
+            camera.position.y = cameraRadius * Math.cos(cameraPhi) + panOffset.y;
+            camera.position.z = cameraRadius * Math.sin(cameraPhi) * Math.sin(cameraTheta) + panOffset.z;
+            camera.lookAt(panOffset);
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
