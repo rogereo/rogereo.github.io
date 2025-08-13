@@ -409,6 +409,7 @@
 
         // Store connection lines
         const connectionLines = [];
+        const connectedAnimals = new Set();
         
         // Function to find animal sprite by name
         function findAnimalSprite(name) {
@@ -430,6 +431,21 @@
             const dy = pos1.y - pos2.y;
             const dz = pos1.z - pos2.z;
             return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        }
+        
+        // Function to dim/highlight animals
+        function updateAnimalOpacity(highlighted = false) {
+            animalSprites.forEach(sprite => {
+                if (highlighted) {
+                    if (connectedAnimals.has(sprite)) {
+                        sprite.material.opacity = 1.0;
+                    } else {
+                        sprite.material.opacity = 0.3;
+                    }
+                } else {
+                    sprite.material.opacity = 1.0;
+                }
+            });
         }
         
         // Function to create connection lines between animals
@@ -454,6 +470,7 @@
                 const sprite = findAnimalSprite(name);
                 if (sprite) {
                     foundAnimals.push(sprite);
+                    connectedAnimals.add(sprite);
                 } else {
                     notFound.push(name);
                 }
@@ -465,6 +482,9 @@
                 return;
             }
             
+            // Dim other animals and highlight connected ones
+            updateAnimalOpacity(true);
+            
             // Create connections between all pairs
             let distanceInfo = '<strong>Distances:</strong><br>';
             for (let i = 0; i < foundAnimals.length; i++) {
@@ -472,14 +492,14 @@
                     const sprite1 = foundAnimals[i];
                     const sprite2 = foundAnimals[j];
                     
-                    // Create line
+                    // Create bold black line
                     const points = [sprite1.position, sprite2.position];
                     const geometry = new THREE.BufferGeometry().setFromPoints(points);
                     const material = new THREE.LineBasicMaterial({ 
-                        color: 0xFF0000, 
-                        linewidth: 2,
-                        opacity: 0.8,
-                        transparent: true
+                        color: 0x000000,  // Black color
+                        linewidth: 3,     // Bold line
+                        opacity: 1.0,
+                        transparent: false
                     });
                     const line = new THREE.Line(geometry, material);
                     scene.add(line);
@@ -506,6 +526,8 @@
                 line.material.dispose();
             });
             connectionLines.length = 0;
+            connectedAnimals.clear();
+            updateAnimalOpacity(false);  // Reset all animals to full opacity
             document.getElementById('distance-info').innerHTML = '';
         }
         
