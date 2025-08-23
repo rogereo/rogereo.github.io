@@ -14,15 +14,30 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Helvetica, sans-serif;
       background: white;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
     #canvas-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+    position: relative;
+
+    /* Break out of the narrow post column */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+
+    /* Height */
+    height: 70vh; /* or 100vh if you really want full height */
+
+    /* Optional: keep the canvas edges clean */
+    overflow: hidden;
     }
+    @supports (height: 100svh) {
+    /* On mobile Safari, svh accounts for the URL bar correctly */
+    #canvas-container { height: 75svh; }
+    }
+
     #title {
       position: absolute;
       top: 20px;
