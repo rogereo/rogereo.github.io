@@ -32,3 +32,29 @@ The challenge is clear: bears and leopards look very different from each other, 
 ### Compute
 > I trained all three models on my local machine using only CPU resources (AMD Ryzen 7 7730U with 16 GB of RAM). While this setup was sufficient for the experiment, it came at the cost of longer training times: MobileNet v3 Large finished in about 12 minutes, ResNet-18 in 18 minutes, and EfficientNet-B0 took the longest at 23 minutes. These results highlighted the efficiency differences between architectures, with MobileNet’s lightweight design showing clear speed advantages. To keep the comparison fair, I standardized the setup across all models: the same dataset of five mammal types, images resized to 192×192 pixels, and consistent training parameters—15 epochs, a learning rate of 0.001, the Adam optimizer, cross-entropy loss, and a StepLR scheduler. This consistency ensured that any performance differences could be traced back to the models themselves rather than variations in setup. In future iterations, I plan to experiment with GPU acceleration, which would dramatically reduce training time and open the door for deeper exploration.
 
+### Evaluation
+> To evaluate the models, I used a validation dataset of 464 images, representing 20% of the original split. 
+Each trained model was run once across this set, generating predictions that I compared directly with the 
+true labels. From this, I calculated accuracy and average loss, giving me a first look at how well each architecture 
+performed. My goal at this stage was not exhaustive experimentation but rather to complete the end-to-end process of 
+training and evaluation as quickly as possible. Because training was limited to my local CPU, I only performed a 
+single evaluation pass per model. For future iterations, I plan to leverage GPU resources, which will allow me to 
+run more experiments, tune hyperparameters more freely, and explore advanced validation methods.
+
+<div align="center">
+  <figure style="display:inline-block; margin:5px;">
+    <figcaption align="center"><b>ResNet</b></figcaption>
+    <img src="/assets/resnet_validation.png" alt="resnet_v" width="250" height="150" title="ResNet" />
+    <img src="/assets/resnet_confusionmatrix.png" alt="resnet_c" width="250" height="150" title="ResNet" />
+  </figure>
+  <figure style="display:inline-block; margin:5px;">
+    <figcaption align="center"><b>EfficientNet</b></figcaption>
+    <img src="/assets/efficientnet_validation.png" alt="efficientnet_v" width="250" height="150"/>
+    <img src="/assets/efficientnet_confusionmatrix.png" alt="efficientnet_c" width="250" height="150"/>
+  </figure>
+  <figure style="display:inline-block; margin:5px;">
+  <figcaption align="center"><b>MobileNet</b></figcaption>
+    <img src="/assets/mobilenet_validation.png" alt="mobilenet_v" width="250" height="150" />
+    <img src="/assets/mobilenet_confusionmatrix.png" alt="mobilenet_c" width="250" height="150" />
+  </figure>
+</div>
