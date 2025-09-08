@@ -21,7 +21,7 @@ tags:
 > To build my dataset, I pulled images from DuckDuckGo using a custom API, aiming for about 100 images per animal. Not every download worked (some files were corrupted), so I added error handling to skip them, which left me with closer to 85–100 images per animal. That turned out to be enough for the experiment I had in mind. Once collected, I resized all images to 192×192 pixels to keep them consistent and manageable, then converted them into PyTorch tensors for efficient training. Finally, I organized everything into a clean directory structure with an 80/20 train–validation split, making it simple to feed directly into the model later
 
 <p align="center">
-  <img src="/assets/output.png" alt="Mammal Image Grid" width="600" height="450" />
+  <img src="/assets/3dMammalSpace.png" alt="Mammal Image Grid" width="80%" height="600" />
 </p>
 
 ### Algorithm
@@ -127,17 +127,17 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
 
 Bear classification
 <p align="center">
-<img src="/assets/app_bear.png" width="800" height="430" alt="Carnivore Bear" title="Bear" />
+<img src="/assets/app_bear.png" width="100%" height="430" alt="Carnivore Bear" title="Bear" />
 </p>
 
 Leopard classification
 <p align="center">
-<img src="/assets/app_leopard.png" width="800" height="430" alt="Carnivore Leopard" title="Leopard" />
+<img src="/assets/app_leopard.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
 </p>
 
 Zebra classification
 <p align="center">
-<img src="/assets/app_Zebra.png" width="800" height="430" alt="Ungulate Zebra" title="Zebra" />
+<img src="/assets/app_Zebra.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
 </p>
 
 ### Conclusion
