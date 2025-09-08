@@ -15,13 +15,15 @@ tags:
 
 > This project set out to explore whether a model could move beyond memorizing individual animals and instead capture the shared features that define mammal groups. In biology, leopards and wolves are classified as carnivores while zebras are ungulates, distinctions grounded in traits like teeth, jaws, limbs, and skull structure. Since such anatomical data isn’t available here, I reframed the challenge: can a computer vision model, trained only on images, uncover these groupings through learned visual patterns? To test this, I built a mammal type classifier using supervised learning, aiming to train it to recognize subtle similarities across species and correctly classify new ones. To illustrate the goal, I created a 3D Mammal Space, where each animal is represented as a point. In this space, proximity reflects similarity, and clusters emerge for each group—an intuitive visualization of the structured separation I hope the model will learn to discover on its own.
 
-<iframe src="/assets/3D_mammal_space.html" width="100%" height="500" style="border:none;"></iframe>
+<div class="responsive-embed">
+  <iframe src="/assets/3D_mammal_space.html" width="100%" height="500" style="border:none;"></iframe>
+</div>
 
 ### Data 
 > To build my dataset, I pulled images from DuckDuckGo using a custom API, aiming for about 100 images per animal. Not every download worked (some files were corrupted), so I added error handling to skip them, which left me with closer to 85–100 images per animal. That turned out to be enough for the experiment I had in mind. Once collected, I resized all images to 192×192 pixels to keep them consistent and manageable, then converted them into PyTorch tensors for efficient training. Finally, I organized everything into a clean directory structure with an 80/20 train–validation split, making it simple to feed directly into the model later
 
 <p align="center">
-  <img src="/assets/3dMammalSpace.png" alt="Mammal Image Grid" width="80%" height="600" />
+  <img src="/assets/MammalImageGrid.png" alt="Mammal Image Grid" loading="lazy" decoding="async">
 </p>
 
 ### Algorithm
@@ -65,9 +67,6 @@ Mammal-Type-Classifier/
 </pre>
 </div>
 
-
-
-
 ##### **Validation**
 
 > To evaluate the models, I used a validation dataset of 464 images, representing 20% of the original split. 
@@ -79,48 +78,59 @@ single evaluation pass per model. For future iterations, I plan to leverage GPU 
 run more experiments, tune hyperparameters more freely, and explore advanced validation methods.
 
 
-<figure style="display: flex; align-items: flex-start; gap: 15px; margin: 5px;">
-    <div>
-        <figcaption align="left"><b>ResNet</b></figcaption>
-        <p>----------</p>
-        <table style="border: none; font-family: helvetica;">
-            <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
-            <tr><td>Correct Prediction:</td><td style="text-align: right;">417</td></tr>
-            <tr><td>Accuracy:</td><td style="text-align: right;">89.9%</td></tr>
-            <tr><td>Loss:</td><td style="text-align: right;">0.39</td></tr>
-        </table>
-    </div>
-    <img src="/assets/resnet_confusionmatrix.png" alt="resnet_c" width="380" height="380" title="ResNet" />
+<figure class="responsive">
+  <div>
+    <figcaption><b>ResNet</b></figcaption>
+    <p>----------</p>
+    <table style="border: none; font-family: helvetica;">
+      <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
+      <tr><td>Correct Prediction:</td><td style="text-align: right;">417</td></tr>
+      <tr><td>Accuracy:</td><td style="text-align: right;">89.9%</td></tr>
+      <tr><td>Loss:</td><td style="text-align: right;">0.39</td></tr>
+    </table>
+  </div>
+  <img src="/assets/resnet_confusionmatrix.png"
+       alt="ResNet confusion matrix"
+       title="ResNet"
+       loading="lazy"
+       decoding="async">
 </figure>
 
-<figure style="display: flex; align-items: flex-start; gap: 15px; margin: 5px;">
-    <div>
-        <figcaption align="left"><b>EfficientNet</b></figcaption>
-        <p>----------</p>
-        <table style="border: none; font-family: helvetica;">
-            <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
-            <tr><td>Correct Prediction:</td><td style="text-align: right;">432</td></tr>
-            <tr><td>Accuracy:</td><td style="text-align: right;">93.1%</td></tr>
-            <tr><td>Loss:</td><td style="text-align: right;">0.22</td></tr>
-        </table>
-    </div>
-    <img src="/assets/efficientnet_confusionmatrix.png" alt="efficientnet_c" width="380" height="380" title="EfficientNet" />
+<figure class="responsive">
+  <div>
+    <figcaption><b>EfficientNet</b></figcaption>
+    <p>----------</p>
+    <table style="border: none; font-family: helvetica;">
+      <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
+      <tr><td>Correct Prediction:</td><td style="text-align: right;">432</td></tr>
+      <tr><td>Accuracy:</td><td style="text-align: right;">93.1%</td></tr>
+      <tr><td>Loss:</td><td style="text-align: right;">0.22</td></tr>
+    </table>
+  </div>
+  <img src="/assets/efficientnet_confusionmatrix.png"
+       alt="EfficientNet confusion matrix"
+       title="EfficientNet"
+       loading="lazy"
+       decoding="async">
 </figure>
 
-<figure style="display: flex; align-items: flex-start; gap: 15px; margin: 5px;">
-    <div>
-        <figcaption align="left"><b>MobileNet</b></figcaption>
-        <p>----------</p>
-        <table style="border: none; font-family: helvetica;">
-            <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
-            <tr><td>Correct Prediction:</td><td style="text-align: right;">422</td></tr>
-            <tr><td>Accuracy:</td><td style="text-align: right;">90.8%</td></tr>
-            <tr><td>Loss:</td><td style="text-align: right;">0.33</td></tr>
-        </table>
-    </div>
-    <img src="/assets/mobilenet_confusionmatrix.png" alt="mobilenet_c" width="380" height="380" title="MobileNet" />
+<figure class="responsive">
+  <div>
+    <figcaption><b>MobileNet</b></figcaption>
+    <p>----------</p>
+    <table style="border: none; font-family: helvetica;">
+      <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
+      <tr><td>Correct Prediction:</td><td style="text-align: right;">422</td></tr>
+      <tr><td>Accuracy:</td><td style="text-align: right;">90.8%</td></tr>
+      <tr><td>Loss:</td><td style="text-align: right;">0.33</td></tr>
+    </table>
+  </div>
+  <img src="/assets/mobilenet_confusionmatrix.png"
+       alt="MobileNet confusion matrix"
+       title="MobileNet"
+       loading="lazy"
+       decoding="async">
 </figure>
-
 
 ### Deployment
 > After training and evaluation, I saved the models as pickled files so they could be reused without retraining and integrated them into a Gradio web app. The application’s core feature is a side-by-side comparison, letting users test an image across ResNet, EfficientNet, and MobileNet while seeing the predicted label, actual label, cross-entropy loss, and prediction probability for each. To make the experience more engaging, I added Gemini LLM features: an automated performance summary that highlights which models were correct and how they differed, and a fun fact about the animal whenever a model gets the prediction right. Together, these features turn a simple classifier into an interactive, educational tool that not only demonstrates model performance but also makes the results more insightful and rewarding to explore.
