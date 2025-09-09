@@ -147,7 +147,7 @@ Leopard classification
 
 Zebra classification
 <p align="center">
-<img src="/assets/app_Zebra.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
+<img src="/assets/app_zebra.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
 </p>
 
 ### Conclusion
