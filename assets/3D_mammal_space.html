@@ -16,9 +16,10 @@
       padding: 0;
       font-family: Helvetica, sans-serif;
       background: white;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden; /* Prevent scrollbars */
+      height: 100vh;    /* Make sure body fits viewport */
     }
+
 
     #canvas-container {
     position: relative;
@@ -27,6 +28,7 @@
     min-height: 500px;   /* safety for small screens */
     overflow: hidden;
     }
+
 
     #title {
       position: absolute;
@@ -169,14 +171,6 @@
         <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #DAA520;margin-right:8px;"></span>
         <span>Ungulates</span>
       </div>
-    </div>
-
-    <div id="distance-tool">
-      <h3>Animal Connection</h3>
-      <input type="text" id="animal-input" placeholder="e.g., zebra, leopard, bear" />
-      <button id="connect-btn">Connect Animals</button>
-      <button class="clear-btn" id="clear-connections">Clear Connections</button>
-      <div id="distance-info"></div>
     </div>
 
     <div id="tooltip"></div>
@@ -442,27 +436,6 @@
       }
       document.getElementById('distance-info').innerHTML = info;
     }
-
-    function clearConnections() {
-      connectionLines.forEach(line => {
-        scene.remove(line);
-        line.geometry.dispose();
-        line.material.dispose();
-      });
-      connectionLines.length = 0;
-      connectedAnimals.clear();
-      updateAnimalOpacity(false);
-      document.getElementById('distance-info').innerHTML = '';
-    }
-
-    document.getElementById('connect-btn').addEventListener('click', connectAnimals);
-    document.getElementById('clear-connections').addEventListener('click', () => {
-      clearConnections();
-      document.getElementById('animal-input').value = '';
-    });
-    document.getElementById('animal-input').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') connectAnimals();
-    });
 
     // Hover raycasting (use canvas bounds to work when canvas isn't full window)
     function onPointerMove(event) {
