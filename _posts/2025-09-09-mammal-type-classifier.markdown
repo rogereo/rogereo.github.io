@@ -137,7 +137,7 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
 
 Leopard classification
 <p align="center">
-<img src="/assets/app_leopard.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
+<img src="/assets/app_leopard_.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
 </p>
 
 Wolf classification
@@ -148,7 +148,7 @@ alt="Carnivore Wolf" title="Wolf" />
 
 Zebra classification
 <p align="center">
-<img src="/assets/app_zebra.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
+<img src="/assets/app_zebra_.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
 </p>
 
 ### Conclusion
