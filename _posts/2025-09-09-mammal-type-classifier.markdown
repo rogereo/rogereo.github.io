@@ -135,14 +135,15 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
 ### Deployment
 > After training and evaluation, I saved the models as pickled files so they could be reused without retraining and integrated them into a Gradio web app. The application’s core feature is a side-by-side comparison, letting users test an image across ResNet, EfficientNet, and MobileNet while seeing the predicted label, actual label, cross-entropy loss, and prediction probability for each. To make the experience more engaging, I added Gemini LLM features: an automated performance summary that highlights which models were correct and how they differed, and a fun fact about the animal whenever a model gets the prediction right. Together, these features turn a simple classifier into an interactive, educational tool that not only demonstrates model performance but also makes the results more insightful and rewarding to explore.
 
-Bear classification
-<p align="center">
-<img src="/assets/app_bear.png" width="100%" height="430" alt="Carnivore Bear" title="Bear" />
-</p>
-
 Leopard classification
 <p align="center">
 <img src="/assets/app_leopard.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
+</p>
+
+Wolf classification
+<p align="center">
+<img src="/assets/app_wolf.png" width="100%"height="430"
+alt="Carnivore Wolf" title="Wolf" />
 </p>
 
 Zebra classification
