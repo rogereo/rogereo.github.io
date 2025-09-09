@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Mammal Type Classifier"
-excerpt: "How does a machine learn what connects a leopard to a wolf—but not a zebra?"
+excerpt: "How does a machine learn that a leopard has more in common with a wolf than with a zebra?"
 date:   2025-09-09 00:00:00
 mathjax: false
 tags: 
