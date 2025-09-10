@@ -11,7 +11,8 @@ tags:
   - neural network
 ---
 
-### How does a machine learn that a leopard shares more in common with a wolf than a zebra?
+### Question
+##### How does a machine learn that a leopard shares more in common with a wolf than a zebra?
 
 > This project set out to explore whether a model could move beyond memorizing individual animals and instead capture the shared features that define mammal groups. In biology, leopards and wolves are classified as carnivores while zebras are ungulates, distinctions grounded in traits like teeth, jaws, limbs, and skull structure. Without anatomical data available, this becomes a question of whether a computer vision model, trained only on images, can learn the underlying biological groupings just from visual patterns. To test this, I built a mammal type classifier using supervised learning, aiming to train it to recognize subtle similarities across species and correctly classify new ones. To illustrate the goal, I created a 3D Mammal Space, where each animal is represented as a point. In this space, proximity reflects similarity, and clusters emerge for each group. The visualization reflects a structured separation I hope the model will learn to discover on its own.
 

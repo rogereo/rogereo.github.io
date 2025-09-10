@@ -566,3 +566,51 @@ figure.responsive img { width: 100%; height: auto; max-width: 520px; }
 /* 16:9 responsive iframe wrapper */
 .responsive-embed { position: relative; width: 100%; padding-top: 56.25%; }
 .responsive-embed > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+
+/* Layout/position */
+.toc-wrap {
+  position: fixed;
+  left: 12px;
+  top: 120px;               /* adjust if your navbar is taller */
+  max-width: 220px;
+  z-index: 5;
+}
+
+.toc-container {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 10px 12px;
+  max-height: 70vh;
+  overflow: auto;
+  font-size: 14px;
+}
+
+/* List + links */
+.toc-container ul { list-style: none; margin: 0; padding-left: 0; }
+.toc-container li { margin: 6px 0; }
+.toc-container a { text-decoration: none; color: #2563eb; }
+.toc-container a:hover { text-decoration: underline; }
+
+/* Indentation by level */
+.toc-level-2 { margin-left: 0; }
+.toc-level-3 { margin-left: 12px; }
+.toc-level-4 { margin-left: 20px; }
+
+/* Active section highlight */
+.toc-container a.active { font-weight: 600; }
+
+/* Make room so your content doesn't hide under a fixed header when jumped to */
+.post-content h2, .post-content h3, .post-content h4 {
+  scroll-margin-top: 90px;  /* match your navbar height */
+}
+
+/* Mobile: collapse or hide */
+@media (max-width: 900px) {
+  .toc-wrap {
+    position: static;
+    max-width: 100%;
+    margin: 0 0 16px 0;
+  }
+}

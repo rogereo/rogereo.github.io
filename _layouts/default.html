@@ -28,5 +28,73 @@
     document.querySelector('.progress-bar').style.width = scrolled + '%';
     });
     </script>
+
+    <script>
+      (function () {
+        const content = document.querySelector(".post-content");
+        const toc = document.getElementById("toc");
+        if (!content || !toc) return;
+
+        const headings = Array.from(content.querySelectorAll("h2, h3, h4"))
+          .filter(h => h.textContent.trim().length);
+
+        const slug = (s) => s.toLowerCase().replace(/[^a-z0-9\s\-]/g,"").trim().replace(/\s+/g,"-");
+
+        headings.forEach(h => {
+          if (!h.id) {
+            const base = slug(h.textContent);
+            let id = base, i = 2;
+            while (document.getElementById(id)) id = `${base}-${i++}`;
+            h.id = id;
+          }
+        });
+
+        const ul = document.createElement("ul");
+      
+        // NEW: initialize lastLevel from the first heading level (clamped 2..4)
+        let lastLevel = headings.length ? Math.min(Math.max(parseInt(headings[0].tagName.substring(1), 10), 2), 4) : 2;
+        let parents = [ul];
+
+        headings.forEach(h => {
+          const level = Math.min(Math.max(parseInt(h.tagName.substring(1),10),2),4);
+          while (lastLevel < level) {
+            const newUL = document.createElement("ul");
+            parents[parents.length - 1].lastElementChild?.appendChild(newUL);
+            parents.push(newUL); lastLevel++;
+          }
+          while (lastLevel > level) { parents.pop(); lastLevel--; }
+
+          const li = document.createElement("li");
+          li.className = `toc-level-${level}`;
+          const a = document.createElement("a");
+          a.href = `#${h.id}`; a.textContent = h.textContent;
+          li.appendChild(a); parents[parents.length - 1].appendChild(li);
+        });
+
+        toc.appendChild(ul);
+
+        toc.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") {
+            e.preventDefault();
+            const id = e.target.getAttribute("href").slice(1);
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.replaceState(null, "", `#${id}`);
+          }
+        });
+
+        const linkFor = {};
+        headings.forEach(h => linkFor[h.id] = toc.querySelector(`a[href="#${h.id}"]`));
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const link = linkFor[entry.target.id]; if (!link) return;
+            if (entry.isIntersecting) {
+              toc.querySelectorAll("a.active").forEach(a => a.classList.remove("active"));
+              link.classList.add("active");
+            }
+          });
+        }, { rootMargin: "-70px 0px -70% 0px", threshold: 0.01 });
+        headings.forEach(h => obs.observe(h));
+      })();
+    </script>
     </body>
 </html>
