@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Mammal Type Classifier"
 excerpt: "How does a machine learn that a leopard has more in common with a wolf than a zebra?"
-date:   2025-09-09 00:00:00
+date:   2025-09-10 00:00:00
 mathjax: false
 tags: 
   - classification
@@ -20,7 +20,7 @@ tags:
 </div>
 
 ### Data 
-> To build my dataset, I pulled images from DuckDuckGo using a custom API, aiming for about 100 images per animal. Not every download worked (some files were corrupted), so I added error handling to skip them, which left me with closer to 85–100 images per animal. That turned out to be enough for the experiment I had in mind. Once collected, I resized all images to 192×192 pixels to keep them consistent and manageable, then converted them into PyTorch tensors for efficient training. Finally, I organized everything into a clean directory structure with an 80/20 train–validation split, making it simple to feed directly into the model later
+> To build my dataset, I pulled images from DuckDuckGo using a custom API, aiming for about 100 images per animal. Not every download worked (some files were corrupted), so I added error handling to skip them, which left me with closer to 85–100 images per animal. This summed up to a total of 2,259 images. That turned out to be enough for the experiment I had in mind. Once collected, I resized all images to 192×192 pixels to keep them consistent and manageable, then converted them into PyTorch tensors for efficient training. Finally, I organized everything into a clean directory structure with an 80/20 train–validation split having 1,795 images for training the model and 464 for testing it. 
 
 <p align="center">
   <img src="/assets/MammalImageGrid.png" alt="Mammal Image Grid" loading="lazy" decoding="async">
@@ -86,7 +86,6 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
       <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
       <tr><td>Correct Prediction:</td><td style="text-align: right;">417</td></tr>
       <tr><td>Accuracy:</td><td style="text-align: right;">89.9%</td></tr>
-      <tr><td>Loss:</td><td style="text-align: right;">0.39</td></tr>
     </table>
   </div>
   <img src="/assets/resnet_confusionmatrix.png"
@@ -104,7 +103,6 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
       <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
       <tr><td>Correct Prediction:</td><td style="text-align: right;">432</td></tr>
       <tr><td>Accuracy:</td><td style="text-align: right;">93.1%</td></tr>
-      <tr><td>Loss:</td><td style="text-align: right;">0.22</td></tr>
     </table>
   </div>
   <img src="/assets/efficientnet_confusionmatrix.png"
@@ -122,7 +120,6 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
       <tr><td>Total Images:</td><td style="text-align: right;">464</td></tr>
       <tr><td>Correct Prediction:</td><td style="text-align: right;">422</td></tr>
       <tr><td>Accuracy:</td><td style="text-align: right;">90.8%</td></tr>
-      <tr><td>Loss:</td><td style="text-align: right;">0.33</td></tr>
     </table>
   </div>
   <img src="/assets/mobilenet_confusionmatrix.png"
@@ -137,18 +134,17 @@ run more experiments, tune hyperparameters more freely, and explore advanced val
 
 Leopard classification
 <p align="center">
-<img src="/assets/app_leopard_.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
+<img src="/assets/app_leopard.png" width="100%" height="430" alt="Carnivore Leopard" title="Leopard" />
 </p>
 
 Wolf classification
 <p align="center">
-<img src="/assets/app_wolf.png" width="100%"height="430"
-alt="Carnivore Wolf" title="Wolf" />
+<img src="/assets/app_wolf.png" width="100%" height="430" title="Wolf" />
 </p>
 
 Zebra classification
 <p align="center">
-<img src="/assets/app_zebra_.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
+<img src="/assets/app_zebra.png" width="100%" height="430" alt="Ungulate Zebra" title="Zebra" />
 </p>
 
 ### Conclusion
