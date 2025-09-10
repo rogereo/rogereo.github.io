@@ -11,190 +11,60 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
   <style>
-    /*
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Helvetica, sans-serif;
-      background: white;
-      overflow: hidden; 
-      height: 100vh;   
+    /* Page */
+    body{
+      margin:0;
+      font-family:Helvetica, sans-serif;
+      background:white;
+      overflow-x:hidden; /* avoid sideways jiggle */
     }
 
-
-    #canvas-container {
-    position: relative;
-    width: 100%;         
-    height: 100vh;       
-    min-height: 500px;   
-    overflow: hidden;
-    }
-    */ 
-
-    body {
-      margin: 0;
-      font-family: Helvetica, sans-serif;
-      background: white;
-      overflow-x: hidden;      /* no sideways jiggle */
-      /* remove: touch-action: none; remove: overflow: hidden; */
+    /* Canvas container: tall on mobile, stable on desktop */
+    #canvas-container{
+      position:relative;
+      width:100%;
+      height:min(95vh, 100svh);
+      min-height:600px;
+      overflow:hidden;
     }
 
-    /* canvas container: taller on all screens */
-    #canvas-container {
-      position: relative;
-      width: 100%;
-      height: min(95vh, 100svh);  /* was 90 */
-      min-height: 600px;          /* was 560 */
-      overflow: hidden;
+    /* Title */
+    #title{
+      position:absolute; top:20px; left:20px;
+      font-size:20px; font-weight:bold; color:#333; z-index:100;
     }
 
+    /* Slim legend */
+    #legend{
+      position:absolute; top:12px; right:12px; z-index:100;
+      background:rgba(255,255,255,0.95);
+      padding:10px; border-radius:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+      width:clamp(110px, 28vw, 150px);
+    }
+    .legend-item{ display:flex; align-items:center; margin:4px 0; font-size:12px; }
+    .legend-dot{ width:12px; height:12px; border-radius:50%; background:white; margin-right:6px; }
 
-    #title {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-    }
-   
-    /* legend: slimmer, less padding */
-    #legend {
-      position: absolute;
-      top: 12px;                    /* a bit closer to title */
-      right: 12px;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 10px;                /* was 12px */
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 100;
-      width: clamp(110px, 28vw, 150px);
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      margin: 4px 0;               /* was 6px */
-      font-size: 12px;             /* was 13px */
-    }
-
-    .legend-dot {
-      width: 12px;                 /* was 14px */
-      height: 12px;
-      margin-right: 6px;           /* was 8px */
-    }
-
-    #distance-tool {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      width: 160px;
-    }
-    #distance-tool h3 {
-      margin: 0 0 8px 0;
-      font-size: 14px;
-      color: #333;
-    }
-    #animal-input {
-      width: 100%;
-      padding: 6px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 12px;
-      box-sizing: border-box;
-    }
-    #connect-btn {
-      margin-top: 8px;
-      padding: 6px 12px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-      width: 100%;
-    }
-    #connect-btn:hover { background: #555; }
-    #distance-info {
-      margin-top: 8px;
-      font-size: 11px;
-      color: #666;
-    }
-    .clear-btn {
-      margin-top: 6px;
-      padding: 4px 8px;
-      background: #888;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 11px;
-      width: 100%;
-    }
-    .clear-btn:hover { background: #aaa; }
-    #tooltip {
-      position: absolute;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-size: 13px;
-      pointer-events: none;
-      display: none;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    /* Tooltip */
+    #tooltip{
+      position:absolute; z-index:1000;
+      background:rgba(0,0,0,0.9); color:white;
+      padding:8px 12px; border-radius:5px; font-size:13px;
+      pointer-events:none; display:none; box-shadow:0 2px 8px rgba(0,0,0,0.3);
     }
 
     /* Tablet / small screens */
-    @media (max-width: 768px) {
-      /* make the 3D view taller on phones/tablets */
-      #canvas-container {
-        height: min(90vh, 100svh);   /* was calc(..) / smaller */
-        min-height: 560px;           /* more headroom */
-        overflow: hidden;
-      }
-
-      #title { font-size: 16px; top: 10px; left: 10px; }
-
-      /* slimmer legend that still stays in the corner */
-      #legend {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        padding: 8px;
-        width: clamp(100px, 40vw, 140px);
-      }
-
-      .legend-item { font-size: 11px; margin: 3px 0; }
-      .legend-dot  { width: 11px; height: 11px; margin-right: 6px; }
-
-      /* remove distance-tool rules if that box is gone */
-      /* (Delete these if present)
-      #distance-tool,
-      #distance-tool h3,
-      #animal-input,
-      #connect-btn, .clear-btn { ... }
-      */
-
-      #tooltip { font-size: 11px; padding: 6px 8px; }
+    @media (max-width:768px){
+      #canvas-container{ height:min(90vh, 100svh); min-height:560px; }
+      #title{ font-size:16px; top:10px; left:10px; }
+      #legend{ top:12px; right:12px; padding:8px; width:clamp(100px, 40vw, 140px); }
+      .legend-item{ font-size:11px; margin:3px 0; }
     }
 
-    /* Phones — keep legend fixed in the corner; DO NOT stack below canvas */
-    @media (max-width: 480px) {
-      /* do NOT set position: static or shrink canvas height here */
-      #legend {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: clamp(100px, 40vw, 140px);
-        padding: 8px;
-      }
+    /* Phones */
+    @media (max-width:480px){
+      #legend{ top:10px; right:10px; padding:8px; width:clamp(100px, 40vw, 140px); }
     }
-
   </style>
 </head>
 <body>
@@ -203,57 +73,57 @@
 
     <div id="legend">
       <div class="legend-item">
-        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #B22222;margin-right:8px;"></span>
-        <span>Carnivores</span>
+        <span class="legend-dot" style="border:2px solid #B22222;"></span><span>Carnivores</span>
       </div>
       <div class="legend-item">
-        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #008080;margin-right:8px;"></span>
-        <span>Marsupials</span>
+        <span class="legend-dot" style="border:2px solid #008080;"></span><span>Marsupials</span>
       </div>
       <div class="legend-item">
-        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #4B0082;margin-right:8px;"></span>
-        <span>Primates</span>
+        <span class="legend-dot" style="border:2px solid #4B0082;"></span><span>Primates</span>
       </div>
       <div class="legend-item">
-        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #228B22;margin-right:8px;"></span>
-        <span>Rodents</span>
+        <span class="legend-dot" style="border:2px solid #228B22;"></span><span>Rodents</span>
       </div>
       <div class="legend-item">
-        <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:white;border:2px solid #DAA520;margin-right:8px;"></span>
-        <span>Ungulates</span>
+        <span class="legend-dot" style="border:2px solid #DAA520;"></span><span>Ungulates</span>
       </div>
     </div>
 
     <div id="tooltip"></div>
   </div>
 
-  <!-- Your app code goes in a plain <script> (no src) -->
   <script>
-    // Scene setup
+    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff);
 
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+    // Camera
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000); // aspect set after sizing
     camera.position.set(15, 15, 15);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    // Renderer sized to container
     const canvasContainer = document.getElementById('canvas-container');
-    const rect0 = canvasContainer.getBoundingClientRect();
-    renderer.setSize(rect0.width, rect0.height);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    renderer.domElement.style.touchAction = 'none'; // reliable gestures on mobile
     canvasContainer.appendChild(renderer.domElement);
 
-    // Mobile: widen FOV a bit
-    if (window.innerWidth < 768) {
-      camera.fov = 85;
+    function fitToContainer(){
+      const w = canvasContainer.clientWidth;
+      const h = canvasContainer.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
+    fitToContainer();
+    new ResizeObserver(fitToContainer).observe(canvasContainer);
 
-    // Controls (desktop + mobile touch)
+    // Mobile: widen FOV slightly
+    if (window.innerWidth < 768) { camera.fov = 85; camera.updateProjectionMatrix(); }
+
+    // Controls
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
@@ -264,48 +134,35 @@
     controls.maxPolarAngle = Math.PI * 0.95;
     controls.target.set(0, 0, 0);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
-    directionalLight.position.set(10, 10, 5);
-    scene.add(directionalLight);
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.3);
+    dir.position.set(10, 10, 5);
+    scene.add(dir);
 
     // Grid
-    const gridHelper = new THREE.GridHelper(20, 20, 0xe0e0e0, 0xf0f0f0);
-    scene.add(gridHelper);
+    scene.add(new THREE.GridHelper(20, 20, 0xe0e0e0, 0xf0f0f0));
 
     // Axes
     const axesGroup = new THREE.Group();
-    const xAxis = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(12,0,0)]),
-      new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
+    axesGroup.add(
+      new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(12,0,0)]), new THREE.LineBasicMaterial({ color: 0x000000 })),
+      new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,12,0)]), new THREE.LineBasicMaterial({ color: 0x000000 })),
+      new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,12)]), new THREE.LineBasicMaterial({ color: 0x000000 }))
     );
-    const yAxis = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,12,0)]),
-      new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
-    );
-    const zAxis = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,12)]),
-      new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
-    );
-    axesGroup.add(xAxis, yAxis, zAxis);
     scene.add(axesGroup);
 
     // Axis labels
-    function createAxisLabel(text, position) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = 64; canvas.height = 64;
+    function createAxisLabel(text, position){
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+      c.width = 64; c.height = 64;
       ctx.font = 'bold 48px Arial';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(text, 32, 32);
-
-      const texture = new THREE.CanvasTexture(canvas);
-      const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-      const sprite = new THREE.Sprite(spriteMaterial);
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c) }));
       sprite.position.copy(position);
       sprite.scale.set(1, 1, 1);
       return sprite;
@@ -316,34 +173,32 @@
 
     // Emojis
     const animalEmojis = {
-      'Bears': '🐻', 'Leopards': '🐆', 'Lions': '🦁', 'Tigers': '🐅', 'Wolves': '🐺',
-      'Kangaroos': '🦘', 'Koalas': '🐨', 'Opossums': '🦫', 'Wallabies': '🦘', 'Wombats': '🦫',
-      'Baboons': '🐵', 'Capuchin Monkeys': '🐒', 'Chimpanzees': '🦍', 'Gorillas': '🦍', 'Orangutans': '🦧',
-      'Beavers': '🦫', 'Mice': '🐭', 'Porcupines': '🦔', 'Rats': '🐀', 'Squirrels': '🐿️',
-      'Deer': '🦌', 'Elk': '🦌', 'Giraffes': '🦒', 'Moose': '🦌', 'Zebras': '🦓'
+      'Bears':'🐻','Leopards':'🐆','Lions':'🦁','Tigers':'🐅','Wolves':'🐺',
+      'Kangaroos':'🦘','Koalas':'🐨','Opossums':'🦫','Wallabies':'🦘','Wombats':'🦫',
+      'Baboons':'🐵','Capuchin Monkeys':'🐒','Chimpanzees':'🦍','Gorillas':'🦍','Orangutans':'🦧',
+      'Beavers':'🦫','Mice':'🐭','Porcupines':'🦔','Rats':'🐀','Squirrels':'🐿️',
+      'Deer':'🦌','Elk':'🦌','Giraffes':'🦒','Moose':'🦌','Zebras':'🦓'
     };
 
     // Groups
     const groups = {
-      Carnivores:  { color: 0xB22222, hexColor: '#B22222', animals: ['Bears','Leopards','Lions','Tigers','Wolves'], center: [-4, 2, -3] },
-      Marsupials:  { color: 0x008080, hexColor: '#008080', animals: ['Kangaroos','Koalas','Opossums','Wallabies','Wombats'], center: [8, -3, 7] },
-      Primates:    { color: 0x4B0082, hexColor: '#4B0082', animals: ['Baboons','Capuchin Monkeys','Chimpanzees','Gorillas','Orangutans'], center: [-7, 6, 5] },
-      Rodents:     { color: 0x228B22, hexColor: '#228B22', animals: ['Beavers','Mice','Porcupines','Rats','Squirrels'], center: [3, -1, -6] },
-      Ungulates:   { color: 0xDAA520, hexColor: '#DAA520', animals: ['Deer','Elk','Giraffes','Moose','Zebras'], center: [-1, 1, 2] }
+      Carnivores:{ color:0xB22222, hexColor:'#B22222', animals:['Bears','Leopards','Lions','Tigers','Wolves'], center:[-4,2,-3] },
+      Marsupials:{ color:0x008080, hexColor:'#008080', animals:['Kangaroos','Koalas','Opossums','Wallabies','Wombats'], center:[8,-3,7] },
+      Primates:{ color:0x4B0082, hexColor:'#4B0082', animals:['Baboons','Capuchin Monkeys','Chimpanzees','Gorillas','Orangutans'], center:[-7,6,5] },
+      Rodents:{ color:0x228B22, hexColor:'#228B22', animals:['Beavers','Mice','Porcupines','Rats','Squirrels'], center:[3,-1,-6] },
+      Ungulates:{ color:0xDAA520, hexColor:'#DAA520', animals:['Deer','Elk','Giraffes','Moose','Zebras'], center:[-1,1,2] }
     };
 
-    function createAnimalSprite(animal, groupColor) {
+    function createAnimalSprite(animal, groupColor){
       const size = 256;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = size; canvas.height = size;
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+      c.width = size; c.height = size;
 
       ctx.fillStyle = groupColor;
       ctx.beginPath(); ctx.arc(size/2, size/2, size/2 - 10, 0, Math.PI*2); ctx.fill();
-
       ctx.fillStyle = 'white';
       ctx.beginPath(); ctx.arc(size/2, size/2, size/2 - 20, 0, Math.PI*2); ctx.fill();
-
       ctx.strokeStyle = groupColor; ctx.lineWidth = 8;
       ctx.beginPath(); ctx.arc(size/2, size/2, size/2 - 14, 0, Math.PI*2); ctx.stroke();
 
@@ -352,9 +207,8 @@
       ctx.textBaseline = 'middle';
       ctx.fillText(animalEmojis[animal] || '🐾', size/2, size/2);
 
-      const texture = new THREE.CanvasTexture(canvas);
-      const spriteMaterial = new THREE.SpriteMaterial({ map: texture, sizeAttenuation: true });
-      const sprite = new THREE.Sprite(spriteMaterial);
+      const texture = new THREE.CanvasTexture(c);
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, sizeAttenuation:true }));
       sprite.scale.set(1.5, 1.5, 1);
       return sprite;
     }
@@ -364,191 +218,87 @@
     const mouse = new THREE.Vector2();
     const tooltip = document.getElementById('tooltip');
 
-    Object.entries(groups).forEach(([groupName, groupData]) => {
-      // center
+    // Build groups
+    Object.entries(groups).forEach(([groupName, groupData])=>{
+      // faint center sphere
       const centerMesh = new THREE.Mesh(
         new THREE.SphereGeometry(0.4, 16, 16),
-        new THREE.MeshPhongMaterial({ color: groupData.color, transparent: true, opacity: 0.2 })
+        new THREE.MeshPhongMaterial({ color: groupData.color, transparent:true, opacity:0.2 })
       );
       centerMesh.position.set(...groupData.center);
       scene.add(centerMesh);
 
-      // animals
-      groupData.animals.forEach((animal, index) => {
-        const angle = (index / groupData.animals.length) * Math.PI * 2;
+      // animal sprites
+      groupData.animals.forEach((animal, i)=>{
+        const angle = (i / groupData.animals.length) * Math.PI * 2;
         const radius = 2.5;
-        const heightVariation = (Math.random() - 0.5) * 1.5;
+        const yJitter = (Math.random() - 0.5) * 1.5;
 
         const x = groupData.center[0] + Math.cos(angle) * radius + (Math.random() - 0.5) * 0.8;
-        const y = groupData.center[1] + heightVariation;
+        const y = groupData.center[1] + yJitter;
         const z = groupData.center[2] + Math.sin(angle) * radius + (Math.random() - 0.5) * 0.8;
 
         const sprite = createAnimalSprite(animal, groupData.hexColor);
         sprite.position.set(x, y, z);
-        sprite.userData = { group: groupName, animal: animal };
+        sprite.userData = { group: groupName, animal };
         scene.add(sprite);
         animalSprites.push(sprite);
 
-        // tether line
+        // subtle tether
         const line = new THREE.Line(
           new THREE.BufferGeometry().setFromPoints([ new THREE.Vector3(...groupData.center), new THREE.Vector3(x, y, z) ]),
-          new THREE.LineBasicMaterial({ color: groupData.color, opacity: 0.15, transparent: true })
+          new THREE.LineBasicMaterial({ color: groupData.color, opacity:0.15, transparent:true })
         );
         scene.add(line);
       });
 
       // group label
-      const labelCanvas = document.createElement('canvas');
-      const ctx = labelCanvas.getContext('2d');
-      labelCanvas.width = 256; labelCanvas.height = 64;
-      ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.fillRect(0,0,256,64);
-      ctx.font = 'bold 30px Arial'; ctx.fillStyle = '#333'; ctx.textAlign = 'center';
-      ctx.fillText(groupName, 128, 40);
-
-      const labelTex = new THREE.CanvasTexture(labelCanvas);
-      const labelSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTex }));
+      const lc = document.createElement('canvas');
+      const lctx = lc.getContext('2d');
+      lc.width = 256; lc.height = 64;
+      lctx.fillStyle = 'rgba(255,255,255,0.95)'; lctx.fillRect(0,0,256,64);
+      lctx.font = 'bold 30px Arial'; lctx.fillStyle = '#333'; lctx.textAlign = 'center';
+      lctx.fillText(groupName, 128, 40);
+      const labelSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(lc) }));
       labelSprite.position.set(groupData.center[0], groupData.center[1] + 3.5, groupData.center[2]);
       labelSprite.scale.set(4, 1, 1);
       scene.add(labelSprite);
     });
 
-    // Connections
-    const connectionLines = [];
-    const connectedAnimals = new Set();
-
-    function findAnimalSprite(name) {
-      const normalizedName = name.trim().toLowerCase();
-      for (let sprite of animalSprites) {
-        const nm = sprite.userData.animal.toLowerCase();
-        if (nm === normalizedName || nm.includes(normalizedName) || normalizedName.includes(nm.replace(/s$/, ''))) {
-          return sprite;
-        }
-      }
-      return null;
-    }
-
-    function calculate3DDistance(p1, p2) {
-      const dx = p1.x - p2.x, dy = p1.y - p2.y, dz = p1.z - p2.z;
-      return Math.sqrt(dx*dx + dy*dy + dz*dz);
-    }
-
-    function updateAnimalOpacity(highlighted=false) {
-      animalSprites.forEach(s => {
-        s.material.opacity = highlighted ? (connectedAnimals.has(s) ? 1.0 : 0.3) : 1.0;
-      });
-    }
-
-    function connectAnimals() {
-      const input = document.getElementById('animal-input').value;
-      const names = input.split(',').map(n => n.trim()).filter(Boolean);
-
-      if (names.length < 2) {
-        document.getElementById('distance-info').innerHTML =
-          '<span style="color:#d9534f;">Please enter at least 2 animals separated by commas</span>';
-        return;
-      }
-
-      clearConnections();
-
-      const found = [];
-      const notFound = [];
-
-      for (let n of names) {
-        const s = findAnimalSprite(n);
-        if (s) { found.push(s); connectedAnimals.add(s); } else { notFound.push(n); }
-      }
-
-      if (found.length < 2) {
-        document.getElementById('distance-info').innerHTML =
-          `<span style="color:#d9534f;">Could not find: ${notFound.join(', ')}</span>`;
-        return;
-      }
-
-      updateAnimalOpacity(true);
-
-      let info = '<strong>Distances:</strong><br>';
-      for (let i=0;i<found.length;i++) {
-        for (let j=i+1;j<found.length;j++) {
-          const s1 = found[i], s2 = found[j];
-          const line = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints([ s1.position, s2.position ]),
-            new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 3, opacity: 1.0, transparent: false })
-          );
-          scene.add(line);
-          connectionLines.push(line);
-
-          const d = calculate3DDistance(s1.position, s2.position);
-          info += `${s1.userData.animal} ↔ ${s2.userData.animal}: ${d.toFixed(2)}<br>`;
-        }
-      }
-
-      if (notFound.length > 0) {
-        info += `<br><span style="color:#f0ad4e;">Not found: ${notFound.join(', ')}</span>`;
-      }
-      document.getElementById('distance-info').innerHTML = info;
-    }
-
-    // Hover raycasting (use canvas bounds to work when canvas isn't full window)
-    function onPointerMove(event) {
+    // Hover tooltip (use canvas bounding rect)
+    function onPointerMove(event){
       const rect = renderer.domElement.getBoundingClientRect();
-      const x = ( (event.clientX - rect.left) / rect.width ) * 2 - 1;
-      const y = -( (event.clientY - rect.top) / rect.height ) * 2 + 1;
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       mouse.set(x, y);
 
       raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(animalSprites);
+      const hit = raycaster.intersectObjects(animalSprites);
 
-      if (intersects.length > 0) {
-        const obj = intersects[0].object;
+      if (hit.length > 0){
+        const obj = hit[0].object;
         const data = obj.userData;
-        const tooltip = document.getElementById('tooltip');
         tooltip.innerHTML = `<strong>${animalEmojis[data.animal]} ${data.animal}</strong><br>Group: ${data.group}`;
         tooltip.style.display = 'block';
-        tooltip.style.left = event.clientX + 10 + 'px';
-        tooltip.style.top  = event.clientY - 30 + 'px';
+        tooltip.style.left = (event.clientX + 10) + 'px';
+        tooltip.style.top  = (event.clientY - 30) + 'px';
         document.body.style.cursor = 'pointer';
       } else {
         tooltip.style.display = 'none';
         document.body.style.cursor = 'default';
       }
     }
-    window.addEventListener('mousemove', onPointerMove);
+    renderer.domElement.addEventListener('mousemove', onPointerMove);
 
-    // Animation
-    let time = 0; // <— you were missing this
-    function animate() {
+    // Animate
+    let time = 0;
+    function animate(){
       requestAnimationFrame(animate);
       time += 0.01;
-
-      // gentle float
-      animalSprites.forEach((sprite, i) => {
-        sprite.position.y += Math.sin(time + i * 0.5) * 0.002;
-      });
-
+      animalSprites.forEach((s, i)=>{ s.position.y += Math.sin(time + i * 0.5) * 0.002; });
       controls.update();
       renderer.render(scene, camera);
     }
-
-    // Resize
-    window.addEventListener('resize', () => {
-      // If UI is stacked, canvas may not be full window height.
-      const rect = canvasContainer.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
-
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    });
-
-    // Initial size sync if container isn't exactly window size
-    (function syncInitialSize(){
-      const rect = canvasContainer.getBoundingClientRect();
-      renderer.setSize(rect.width, rect.height);
-      camera.aspect = rect.width / rect.height;
-      camera.updateProjectionMatrix();
-    })();
-
     animate();
   </script>
 </body>

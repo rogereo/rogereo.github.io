@@ -16,9 +16,11 @@ tags:
 
 > This project set out to explore whether a model could move beyond memorizing individual animals and instead capture the shared features that define mammal groups. In biology, leopards and wolves are classified as carnivores while zebras are ungulates, distinctions grounded in traits like teeth, jaws, limbs, and skull structure. Without anatomical data available, this becomes a question of whether a computer vision model, trained only on images, can learn the underlying biological groupings just from visual patterns. To test this, I built a mammal type classifier using supervised learning, aiming to train it to recognize subtle similarities across species and correctly classify new ones. To illustrate the goal, I created a 3D Mammal Space, where each animal is represented as a point. In this space, proximity reflects similarity, and clusters emerge for each group. The visualization reflects a structured separation I hope the model will learn to discover on its own.
 
-<div class="responsive-embed">
-  <iframe src="/assets/3D_mammal_space.html" width="100%" height="500" style="border:none;"></iframe>
+<div class="responsive-embed" style="width:100%; height:70vh;">
+  <iframe src="/assets/3D_mammal_space.html"
+          style="border:none; width:100%; height:100%;"></iframe>
 </div>
+
 
 ### Data 
 > To build my dataset, I pulled images from DuckDuckGo using a custom API, aiming for about 100 images per animal. This includes all animals below from the Mammal Image Grid. Focusing on the five mammal groups: Carnivores, Marsupials, Primates, Rodents, and Ungulates. Not every download worked (some files were corrupted), so I added error handling to skip them, which left me with closer to 85–100 images per animal. This summed up to a total of 2,259 images. That turned out to be enough for the experiment I had in mind. Once collected, I resized all images to 192×192 pixels to keep them consistent and manageable, then converted them into PyTorch tensors for efficient training. Finally, I organized everything into a clean directory structure with a near 80/20 train–validation split having 1,795 images for training and 464 for testing the model. 
@@ -151,4 +153,11 @@ Zebra classification
 </p>
 
 ### Conclusion
->In the end, the project gave me a partial but meaningful answer to my original question. By building a CNN-based mammal classifier, I was able to demonstrate how a model can learn to group animals like leopards and wolves together while distinguishing them from zebras. What I don’t yet have is a full grasp of the mathematics behind how these connections are formed, but I now have a working system that makes the process visible through application. The real achievement lies in transforming an abstract question into something tangible: an end-to-end classifier and interactive app that not only validates the idea in practice but also lays the foundation for deeper exploration.
+>In the end, the project gave me a partial but meaningful answer to my original question. By building a CNN-based mammal classifier, I was able to see the idea in action, most clearly in the MobileNet result above which correctly grouped the leopard and wolf as carnivores while distinguishing the zebra as an ungulate. What I don’t yet have is a full grasp of the mathematics behind how these connections are formed, but I now have a working system that makes the process visible through application. The real achievement lies in transforming an abstract question into something tangible: an end-to-end classifier and interactive app that not only validates the idea in practice but also lays the foundation for deeper exploration.\
+
+--------------
+Project on Github  
+[Mammal Type Classifier](https://github.com/rogereo/Mammal-Type-Classifier.git)  
+
+Setting up your free Gemini API key  
+[Gemini API](https://ai.google.dev/gemini-api/docs/quickstart?gclsrc=aw.ds&gad_source=1&gad_campaignid=22301328894&gbraid=0AAAAACn9t66E2UBPuMFHBHb5VyCoG13b4&gclid=Cj0KCQjwoP_FBhDFARIsANPG24MJuIFxXWszmYHso5sDOqe-UCsW5MkohlOYi4v3qpR0J4Jerb1ShVwaAu5YEALw_wcB)
