@@ -48,6 +48,15 @@
       overflow: hidden;
     }
 
+    /* canvas container: taller on all screens */
+    #canvas-container {
+      position: relative;
+      width: 100%;
+      height: min(90vh, 100svh);  /* was ~75vh */
+      min-height: 560px;          /* was 420–500px */
+      overflow: hidden;
+    }
+
 
     #title {
       position: absolute;
@@ -57,21 +66,33 @@
       font-weight: bold;
       color: #333;
     }
+   
+    /* legend: slimmer, less padding */
     #legend {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 12px;                    /* a bit closer to title */
+      right: 12px;
       background: rgba(255, 255, 255, 0.95);
-      padding: 10px;
-      border-radius: 8px;
+      padding: 10px;                /* was 12px */
+      border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+      width: clamp(140px, 32vw, 190px);   /* was max-width:200px */
     }
+
     .legend-item {
       display: flex;
       align-items: center;
-      margin: 4px 0;
-      font-size: 12px;
+      margin: 4px 0;               /* was 6px */
+      font-size: 12px;             /* was 13px */
     }
+
+    .legend-dot {
+      width: 12px;                 /* was 14px */
+      height: 12px;
+      margin-right: 6px;           /* was 8px */
+    }
+
     #distance-tool {
       position: absolute;
       bottom: 10px;
@@ -139,30 +160,50 @@
 
     /* Tablet / small screens */
     @media (max-width: 768px) {
-      #title { font-size: 16px; top: 10px; left: 10px; }
-      #legend {
-        top: auto; bottom: 80px; right: 10px;
-        font-size: 11px; padding: 6px;
+      /* make the 3D view taller on phones/tablets */
+      #canvas-container {
+        height: min(90vh, 100svh);   /* was calc(..) / smaller */
+        min-height: 560px;           /* more headroom */
+        overflow: hidden;
       }
-      .legend-item { font-size: 10px; }
-      #distance-tool { bottom: 10px; right: 10px; width: 180px; padding: 8px; }
-      #distance-tool h3 { font-size: 12px; }
-      #animal-input { font-size: 11px; }
-      #connect-btn, .clear-btn { font-size: 11px; padding: 6px; }
+
+      #title { font-size: 16px; top: 10px; left: 10px; }
+
+      /* slimmer legend that still stays in the corner */
+      #legend {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 8px;
+        width: clamp(120px, 40vw, 160px);
+      }
+
+      .legend-item { font-size: 11px; margin: 3px 0; }
+      .legend-dot  { width: 11px; height: 11px; margin-right: 6px; }
+
+      /* remove distance-tool rules if that box is gone */
+      /* (Delete these if present)
+      #distance-tool,
+      #distance-tool h3,
+      #animal-input,
+      #connect-btn, .clear-btn { ... }
+      */
+
       #tooltip { font-size: 11px; padding: 6px 8px; }
     }
 
-    /* Phones where we stack UI below canvas */
+    /* Phones — keep legend fixed in the corner; DO NOT stack below canvas */
     @media (max-width: 480px) {
-      #legend, #distance-tool {
-        position: static;
-        margin: 8px auto;
-        width: 90%;
-      }
-      #canvas-container {
-        height: calc(100vh - 200px); /* leave space for stacked UI */
+      /* do NOT set position: static or shrink canvas height here */
+      #legend {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: clamp(120px, 45vw, 150px);
+        padding: 8px;
       }
     }
+
   </style>
 </head>
 <body>
