@@ -39,21 +39,12 @@
       /* remove: touch-action: none; remove: overflow: hidden; */
     }
 
-    /* Responsive, iframe/blog-friendly container */
-    #canvas-container {
-      position: relative;
-      width: 100%;                 /* stay inside the blog/iframe */
-      height: min(75vh, 100svh);   /* good phone height; handles iOS toolbars */
-      min-height: 420px;           /* safety on tiny screens */
-      overflow: hidden;
-    }
-
     /* canvas container: taller on all screens */
     #canvas-container {
       position: relative;
       width: 100%;
-      height: min(90vh, 100svh);  /* was ~75vh */
-      min-height: 560px;          /* was 420–500px */
+      height: min(95vh, 100svh);  /* was 90 */
+      min-height: 600px;          /* was 560 */
       overflow: hidden;
     }
 
@@ -77,7 +68,7 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       z-index: 100;
-      width: clamp(140px, 32vw, 190px);   /* was max-width:200px */
+      width: clamp(110px, 28vw, 150px);
     }
 
     .legend-item {
@@ -175,7 +166,7 @@
         top: 12px;
         right: 12px;
         padding: 8px;
-        width: clamp(120px, 40vw, 160px);
+        width: clamp(100px, 40vw, 140px);
       }
 
       .legend-item { font-size: 11px; margin: 3px 0; }
@@ -199,7 +190,7 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        width: clamp(120px, 45vw, 150px);
+        width: clamp(100px, 40vw, 140px);
         padding: 8px;
       }
     }
