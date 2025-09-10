@@ -11,22 +11,41 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
   <style>
+    /*
     body {
       margin: 0;
       padding: 0;
       font-family: Helvetica, sans-serif;
       background: white;
-      overflow: hidden; /* Prevent scrollbars */
-      height: 100vh;    /* Make sure body fits viewport */
+      overflow: hidden; 
+      height: 100vh;   
     }
 
 
     #canvas-container {
     position: relative;
-    width: 100%;         /* stay inside the iframe, no 100vw breakout */
-    height: 100vh;       /* fill the iframe’s viewport height */
-    min-height: 500px;   /* safety for small screens */
+    width: 100%;         
+    height: 100vh;       
+    min-height: 500px;   
     overflow: hidden;
+    }
+    */ 
+
+    body {
+      margin: 0;
+      font-family: Helvetica, sans-serif;
+      background: white;
+      overflow-x: hidden;      /* no sideways jiggle */
+      /* remove: touch-action: none; remove: overflow: hidden; */
+    }
+
+    /* Responsive, iframe/blog-friendly container */
+    #canvas-container {
+      position: relative;
+      width: 100%;                 /* stay inside the blog/iframe */
+      height: min(75vh, 100svh);   /* good phone height; handles iOS toolbars */
+      min-height: 420px;           /* safety on tiny screens */
+      overflow: hidden;
     }
 
 
