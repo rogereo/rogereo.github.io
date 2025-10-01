@@ -131,7 +131,7 @@ I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://
 <div id="bm"
      data-user="roger_a11"
      data-goal="doublemarathonprep"
-     data-title="DoubleMarathonPrep"></div>
+     data-title="doublemarathonprep"></div>
 
 <style>
   .bm-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
@@ -237,6 +237,6 @@ Two marathons in one weekend is the challenge. The real story is how technology 
 
 - [Dalen Mmako Foundation](https://mmakofoundation.co.za/)  
 - [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach)  
-- [Input-Output Log](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing)  
+- [Input-Output Log Template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing)  
 - [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder)  
 - [Strava](https://www.strava.com/athletes/91022371)  
