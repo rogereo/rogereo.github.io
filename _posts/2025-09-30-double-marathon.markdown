@@ -22,8 +22,8 @@ tags:
 
 ### Tools & Systems
 
-##### AI Running Coach (Running, Strength, and Recovery)
-> To take on consecutive marathons, I needed more than determination. I needed a plan. I chose not to rely on a generic training plan. Instead, I used a large language model as an AI coach to build a program that balanced running, strength, and recovery. Weekly mileage increased step by step, peaking at 82 kilometers, with long trail runs on Saturdays and road runs on Sundays to replicate race weekend fatigue. On Mondays, Wednesdays, and Fridays I added strength sessions with full-body and core focused work plus short recovery runs. On Tuesdays and Thursdays, 10 km efforts for building endurance capacity. The plan includes lighter baseline weeks and a taper at the end to help me reach race day fresh. I used ChatGPT and Claude in alternation, refining the plan through reflection and iteration until it became my training template. Beyond my own training, I wanted to create something useful for others as a reflection tool in preparing for a race. That led to the [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach), a customized tool in the ChatGPT Store. The first MVP version is ready to explore, and it will grow as I continue refining it. 
+##### AI Running Coach (Running, Strength, & Recovery)
+> To take on this challenge I needed a structured plan. I chose not to rely on a generic training plan. Instead, I used a large language model as an AI coach to build a program that balanced running, strength, and recovery. Weekly mileage increased step by step, peaking at 82 kilometers, with long trail runs on Saturdays and road runs on Sundays to replicate race weekend fatigue. On Mondays, Wednesdays, and Fridays I added strength sessions with full-body and core focused work plus short recovery runs. On Tuesdays and Thursdays, 10 km efforts for building endurance capacity. The plan includes lighter baseline weeks and a taper at the end to help me reach race day fresh. I used ChatGPT and Claude in alternation, refining the plan through reflection and iteration until it became my training template. Beyond my own training, I wanted to create something useful for others as a reflection tool in preparing for a race. That led to the [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach), a customized tool in the ChatGPT Store. The first MVP version is ready to explore, and it will grow as I continue refining it. 
 
 <div class="table-scroll">
   <table class="training-table">
@@ -121,7 +121,7 @@ tags:
 }
 </style>
 
-##### Beeminder (Running, and Mindset)
+##### Beeminder (Running & Mindset)
 > To stay accountable, I designed a two-part system with Strava and [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder)
 . Strava tracks my runs in real time, and Beeminder converts that data into a contract with real consequences. 
 I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://www.nickwinter.net/the-motivation-hacker). Instead of relying on willpower, you link your commitment to real consequences. Miss a goal, and you pay — literally. My target averages out to 6 kilometers per day, enough to stay on pace for the double marathon. With each run syncing automatically, Beeminder keeps me accountable through a simple graph: green when I’m on track, red when I’m slipping. If I fall short, the pledge doubles ($5 becomes $10, then $20 etc). The twist? I haven’t lost money. I find that it keeps me accountable. On days I felt like skipping, the thought of losing money pushed me out the door. What makes it powerful is that it feels like a game. Suddenly, training feels fun. It’s counterintuitive, but that’s the secret to why it works.
@@ -209,7 +209,7 @@ I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://
 </script>
 
 
-##### Feedback System (Running, Recovery and Mindset)
+##### Feedback System (Running, Recovery & Mindset)
 
 > I came across this habit tracking system on Pinterest. It inspired me to create my own customized version to serve as a tool for tracking my progress. an Input-Output Log
 
@@ -232,11 +232,11 @@ I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://
 ### Final Thoughts
 Two marathons in one weekend is the challenge. The real story is how technology helps turn curiosity into growth, and ambition into action.
 
---------------
-#### References & Links  
+----
+References
+- [Dalen Mmako Foundation](https://mmakofoundation.co.za/) – nonprofit supporting young athletes in disadvantaged communities
+- [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach) – my custom GPT experiment for marathon training
+- [Input-Output Log Template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing) – spreadsheet I use to track nutrition, weight, and body state  
+- [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder) – habit-tracking tool that integrates with Strava
+- [Strava](https://www.strava.com/athletes/91022371) – follow my training progress
 
-- [Dalen Mmako Foundation](https://mmakofoundation.co.za/)  
-- [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach)  
-- [Input-Output Log Template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing)  
-- [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder)  
-- [Strava](https://www.strava.com/athletes/91022371)  

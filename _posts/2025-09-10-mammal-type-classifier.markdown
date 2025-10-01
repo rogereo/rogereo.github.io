@@ -155,9 +155,7 @@ Zebra classification
 ### Conclusion
 >In the end, the project gave me a partial but meaningful answer to my original question. By building a CNN-based mammal classifier, I was able to see the idea in action, most clearly in the MobileNet result above which correctly grouped the leopard and wolf as carnivores while distinguishing the zebra as an ungulate. What I don’t yet have is a full grasp of the mathematics behind how these connections are formed, but I now have a working system that makes the process visible through application. The real achievement lies in transforming an abstract question into something tangible: an end-to-end classifier and interactive app that not only validates the idea in practice but also lays the foundation for deeper exploration.
 
---------------
-Project on Github  
-[Mammal Type Classifier](https://github.com/rogereo/Mammal-Type-Classifier.git)  
-
-Setting up your free Gemini API key  
-[Gemini API](https://ai.google.dev/gemini-api/docs/quickstart?gclsrc=aw.ds&gad_source=1&gad_campaignid=22301328894&gbraid=0AAAAACn9t66E2UBPuMFHBHb5VyCoG13b4&gclid=Cj0KCQjwoP_FBhDFARIsANPG24MJuIFxXWszmYHso5sDOqe-UCsW5MkohlOYi4v3qpR0J4Jerb1ShVwaAu5YEALw_wcB)
+-----
+References
+- [Mammal Type Classifier](https://github.com/rogereo/Mammal-Type-Classifier.git) – my GitHub project exploring image classification of mammals using CNNs
+- [Gemini API](https://ai.google.dev/gemini-api/docs/quickstart?gclsrc=aw.ds&gad_source=1&gad_campaignid=22301328894&gbraid=0AAAAACn9t66E2UBPuMFHBHb5VyCoG13b4&gclid=Cj0KCQjwoP_FBhDFARIsANPG24MJuIFxXWszmYHso5sDOqe-UCsW5MkohlOYi4v3qpR0J4Jerb1ShVwaAu5YEALw_wcB) – quickstart guide for setting up your free Google Gemini API key to run AI experiments
