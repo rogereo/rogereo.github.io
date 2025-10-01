@@ -20,7 +20,7 @@ tags:
 ### Challenges
 > Training for consecutive marathons requires balancing four critical elements: running, strength, recovery, and mindset. My plan is designed to mirror race weekend. Long trail runs on Saturdays, long road runs on Sundays, and steady midweek mileage. It is designed to condition my legs for cumulative fatigue. To stay strong through the training cycle, I’m focusing on gym work that builds leg strength and core stability so I can maintain form and avoid injury. Recovery is equally important and relies on steady nutrition, regular stretching, and a full eight hours of sleep each night for the body to rebuild. The last piece is the mental game. Staying disciplined when motivation fades, managing training alongside work and life, and building resilience to handle both ups and downs. Training, strength, recovery, and mindset are the four pillars that form the foundation for finishing strong.
 
-### Solution
+### Tools & Systems
 
 ##### AI Running Coach (Running, Strength, and Recovery)
 > To take on consecutive marathons, I needed more than determination. I needed a plan. I chose not to rely on a generic training plan. Instead, I used a large language model as an AI coach to build a program that balanced running, strength, and recovery. Weekly mileage increased step by step, peaking at 82 kilometers, with long trail runs on Saturdays and road runs on Sundays to replicate race weekend fatigue. On Mondays, Wednesdays, and Fridays I added strength sessions with full-body and core focused work plus short recovery runs. On Tuesdays and Thursdays, 10 km efforts for building endurance capacity. The plan includes lighter baseline weeks and a taper at the end to help me reach race day fresh. I used ChatGPT and Claude in alternation, refining the plan through reflection and iteration until it became my training template. Beyond my own training, I wanted to create something useful for others as a reflection tool in preparing for a race. That led to the [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach), a customized tool in the ChatGPT Store. The first MVP version is ready to explore, and it will grow as I continue refining it. 
@@ -209,7 +209,6 @@ I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://
 </script>
 
 
-
 ##### Feedback System (Running, Recovery and Mindset)
 
 > I came across this habit tracking system on Pinterest. It inspired me to create my own customized version to serve as a tool for tracking my progress. an Input-Output Log
@@ -218,23 +217,26 @@ I came across Beeminder in Nick Winter’s book [The Motivation Hacker](https://
   <img src="/assets/tracker.png" alt="tracker" loading="lazy" decoding="async" style="width:60%; height:auto;">
 </p>
 
-> A tool for logging nutrition intake and tracking output through training and recovery work. As part of this, I track my body weight every morning and evening. The intensity of training means my body will naturally shed weight. I want to stay ahead of this by maintaining my current body structure throughout training. By tracking my weight, I can adjust my nutrition whenever it dips. It serves as a feedback loop. I added another graph to track my Body State Index, a subjective metric that reflects how I feel each day. The metrics include energy, flexibility, and sleep. How well did I sleep? How flexible did I feel today? What were my energy levels? Sleep is logged in the morning, while energy and flexibility are tracked at the end of the day. I think of it as an experiment to see how feelings connect with data over time. Here is the [template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing) if you’d like to try it out or modify it into something that works for you.
+> A tool for logging nutrition intake and tracking output through training and recovery work. As part of this, I track my body weight every morning and evening. The intensity of training means my body will naturally shed weight. I want to stay ahead of this by maintaining my current body structure throughout training. By tracking my weight, I can adjust my nutrition whenever it dips. It serves as a feedback loop. I added another graph to track my Body State Index, a subjective metric that reflects how I feel each day. The metrics include sleep, energy, and flexibility. How well did I sleep? What were my energy levels? How flexible did I feel today? Sleep is logged in the morning, while energy and flexibility are tracked at the end of the day. I think of it as an experiment to see how feelings connect with data over time. Here is the [template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing) if you’d like to try it out or modify it into something that works for you.
 
 <p align="center">
   <img src="/assets/IO_Log_Sept30_2025.jpg" alt="IO_Log" loading="lazy" decoding="async">
 </p>
 
-> An interesting way of using this log is to feed it into an LLM like ChatGPT and get feedback on any insights It might have observed. Here is an example of my most recent analysis
+> To make things more engaging, I started treating this log like raw data for a coach. Feeding it into ChatGPT turns the numbers into feedback, almost like having a second set of eyes on my training. Here’s the latest analysis
 
 <p align="center">
   <img src="/assets/GPT_Response.png" alt="GPT" loading="lazy" decoding="async" style="width:60%; height:auto;">
 </p>
 
 ### Final Thoughts
-I am looking to continue updating my Input-Output log up ntil race weekend. Follow my journey on Strava, and reach out if you have any interesting ideas you would like to collaborate on
+Two marathons in one weekend is the challenge. The real story is how technology helps turn curiosity into growth, and ambition into action.
 
 --------------
-DMF 
-[Dalen Mmako Foundation](https://mmakofoundation.co.za/)  
+#### References & Links  
 
- 
+- [Dalen Mmako Foundation](https://mmakofoundation.co.za/)  
+- [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach)  
+- [Input-Output Log](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing)  
+- [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder)  
+- [Strava](https://www.strava.com/athletes/91022371)  
