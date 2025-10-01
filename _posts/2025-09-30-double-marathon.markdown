@@ -237,6 +237,6 @@ References
 - [Dalen Mmako Foundation](https://mmakofoundation.co.za/) – nonprofit supporting young athletes in disadvantaged communities
 - [AI Running Coach](https://chatgpt.com/g/g-688a716578588191981e7834f6a464b8-ai-running-coach) – my custom GPT experiment for marathon training
 - [Input-Output Log Template](https://docs.google.com/spreadsheets/d/1muXk-82C541gbJ1P-6h9snPo2eWTSVh8RIfgqkYkqw8/edit?usp=sharing) – spreadsheet I use to track nutrition, weight, and body state  
-- [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder) – habit-tracking tool that integrates with Strava
+- [Beeminder](https://help.beeminder.com/article/70-what-is-beeminder) – habit tracking tool that integrates with Strava
 - [Strava](https://www.strava.com/athletes/91022371) – follow my training progress
 
