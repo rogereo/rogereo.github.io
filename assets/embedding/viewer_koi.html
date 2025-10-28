@@ -129,7 +129,7 @@ loadData().then(DATA=>{
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping=true; controls.dampingFactor=.06; controls.minDistance=20; controls.maxDistance=400;
   scene.add(new THREE.AmbientLight(0xffffff,.8));
-  const dl=new THREE.DirectionalLight(0xffffff,.35); dl.position set(50,100,30); scene.add(dl);
+  const dl=new THREE.DirectionalLight(0xffffff,.35); dl.position ;(50,100,30); scene.add(dl);
   scene.add(new THREE.GridHelper(200,20,0xeaeaea,0xf5f5f5));
 
   const axes=new THREE.Group();
