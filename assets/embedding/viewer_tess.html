@@ -1,155 +1,9 @@
-# koi_embed_3d.py
-# single-file pipeline: process KOI -> write JSON -> write viewer.html -> open in browser
-# (Update: adds KPI blocks for Total, Candidates, Confirmed at top-left)
-
-import os, json, math, argparse, webbrowser
-import numpy as np
-import pandas as pd
-from pathlib import Path
-
-# ---------------------------
-# CLI
-# ---------------------------
-p = argparse.ArgumentParser()
-p.add_argument("--data", default="data/Kepler Object of Interest.csv", help="path to KOI CSV/XLSX")
-p.add_argument("--projector", choices=["tsne","umap","pca"], default="tsne", help="3D projector")
-p.add_argument("--out_dir", default=".", help="output folder for json/html")
-p.add_argument("--seed", type=int, default=42)
-args = p.parse_args()
-
-DATA_PATH = args.data
-OUT_DIR   = Path(args.out_dir)
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-TARGET_COL   = "koi_disposition"
-FEATURES_BASE = [
-    "koi_period","koi_time0bk","koi_duration","koi_depth",
-    "koi_prad","koi_teq","koi_steff","koi_slogg","koi_srad","koi_kepmag"
-]
-FEATURES_FP   = ["koi_fpflag_nt","koi_fpflag_ss","koi_fpflag_co","koi_fpflag_ec"]
-FEATURE_COLS  = FEATURES_BASE + FEATURES_FP
-ID_COLS       = ["kepid", "kepler_name"]
-
-LABEL_POLICY  = "confirmed_vs_candidate"   # keep CONFIRMED/CANDIDATE only
-POS_LABEL     = "CONFIRMED"
-NEG_LABEL     = "CANDIDATE"
-
-OUT_JSON = OUT_DIR / "koi_tsne3d_points.json"
-OUT_HTML = OUT_DIR / "viewer.html"
-RANDOM_STATE = args.seed
-
-# ---------------------------
-# Load
-# ---------------------------
-ext = os.path.splitext(DATA_PATH)[1].lower()
-if ext in (".xls", ".xlsx"):
-    df_raw = pd.read_excel(DATA_PATH)
-else:
-    df_raw = pd.read_csv(DATA_PATH)
-
-df_raw.columns = df_raw.columns.astype(str).str.strip()
-required = set([TARGET_COL] + FEATURE_COLS + ID_COLS)
-missing = [c for c in required if c not in df_raw.columns]
-if missing:
-    raise KeyError(f"Missing required columns: {missing}")
-
-df = df_raw[ID_COLS + [TARGET_COL] + FEATURE_COLS].copy()
-
-if LABEL_POLICY == "confirmed_vs_candidate":
-    keep = {POS_LABEL, NEG_LABEL}
-    df = df[df[TARGET_COL].isin(keep)].reset_index(drop=True)
-    y = df[TARGET_COL].map({POS_LABEL: 1, NEG_LABEL: 0}).astype(int)
-else:
-    y = df[TARGET_COL].astype(str)
-
-for c in FEATURE_COLS:
-    df[c] = pd.to_numeric(df[c], errors="coerce")
-df = df.dropna(subset=FEATURE_COLS).reset_index(drop=True)
-y = y.loc[df.index]
-
-X = df[FEATURE_COLS].values
-
-# ---------------------------
-# Scale + project to 3D
-# ---------------------------
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-proj = args.projector.lower()
-if proj == "tsne":
-    try:
-        from sklearn.manifold import TSNE
-        tsne = TSNE(
-            n_components=3, learning_rate="auto", init="pca",
-            perplexity=min(30, max(5, len(df)//50)), n_iter=1000, random_state=RANDOM_STATE
-        )
-        coords = tsne.fit_transform(X_scaled)
-        projector_used = "t-SNE"
-    except Exception:
-        from sklearn.decomposition import PCA
-        coords = PCA(n_components=3, random_state=RANDOM_STATE).fit_transform(X_scaled)
-        projector_used = "PCA (fallback)"
-elif proj == "umap":
-    try:
-        import umap
-        coords = umap.UMAP(n_components=3, random_state=RANDOM_STATE).fit_transform(X_scaled)
-        projector_used = "UMAP"
-    except Exception:
-        from sklearn.decomposition import PCA
-        coords = PCA(n_components=3, random_state=RANDOM_STATE).fit_transform(X_scaled)
-        projector_used = "PCA (fallback)"
-else:  # pca
-    from sklearn.decomposition import PCA
-    coords = PCA(n_components=3, random_state=RANDOM_STATE).fit_transform(X_scaled)
-    projector_used = "PCA"
-
-# ---------------------------
-# Cluster (HDBSCAN -> KMeans)
-# ---------------------------
-try:
-    import hdbscan
-    min_sz = max(10, len(df)//50)
-    clusterer = hdbscan.HDBSCAN(min_cluster_size=min_sz)
-    clabels = clusterer.fit_predict(coords)
-    clustering_used = f"HDBSCAN(min_cluster_size={min_sz})"
-except Exception:
-    from sklearn.cluster import KMeans
-    k = min(8, max(2, int(round(math.sqrt(len(df)) / 4))))
-    clabels = KMeans(n_clusters=k, n_init=10, random_state=RANDOM_STATE).fit_predict(coords)
-    clustering_used = f"KMeans(k={k})"
-
-# ---------------------------
-# Package points
-# ---------------------------
-actual_names = {0: "CANDIDATE", 1: "CONFIRMED"}
-points = []
-for i, (x, y_, z) in enumerate(coords):
-    row = df.iloc[i]
-    lab = int(y.iloc[i]) if str(y.iloc[i]).isdigit() else 0
-    points.append({
-        "x": float(x), "y": float(y_), "z": float(z),
-        "kepid": str(row.get("kepid", "")),
-        "kepler_name": str(row.get("kepler_name", "")),
-        "actual_label": lab,
-        "actual_label_name": actual_names.get(lab, str(lab)),
-        "cluster": int(clabels[i]),
-        # handy attributes for tooltip/encodings
-        "koi_prad": float(row.get("koi_prad", np.nan)),
-        "koi_teq": float(row.get("koi_teq", np.nan)),
-    })
-
-OUT_JSON.write_text(json.dumps(points), encoding="utf-8")
-
-# ---------------------------
-# Write viewer.html (safe string) — with KPI blocks
-# ---------------------------
-VIEWER_HTML = r"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KOI 3D Space</title>
+<title>TESS 3D Space</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <style>
@@ -178,7 +32,7 @@ VIEWER_HTML = r"""<!DOCTYPE html>
 </head>
 <body>
 <div id="wrap">
-  <div id="title">KOI 3D Space<div id="sub">features: 10 transit/orbital + 4 FP flags · unsupervised embedding</div></div>
+  <div id="title">TESS 3D Space<div id="sub">features: 11 transit/stellar features · unsupervised embedding</div></div>
 
   <!-- KPI blocks -->
   <div id="kpis">
@@ -190,12 +44,12 @@ VIEWER_HTML = r"""<!DOCTYPE html>
   <div id="panel">
     <label>Color by</label>
     <select id="colorMode">
-      <option value="actual">Actual label (CONFIRMED/CANDIDATE)</option>
+      <option value="actual">Actual label (CP/PC)</option>
       <option value="cluster">Cluster (unsupervised)</option>
     </select>
 
     <label>Search by ID/name</label>
-    <input id="q" type="text" placeholder="e.g., 11446443 or Kepler-22"/>
+    <input id="q" type="text" placeholder="e.g., 8260536 or TOI-5398"/>
 
     <label>Spread</label>
     <input id="spread" type="range" min="0" max="4" step="0.1" value="3"/>
@@ -210,12 +64,12 @@ VIEWER_HTML = r"""<!DOCTYPE html>
 </div>
 
 <script>
-const actualColor = {"0":"#B22222","1":"#228B22"};
+const actualColor = {"0":"#B22222","1":"#228B22"}; // PC (red) / CP (green)
 const clusterPalette = ["#4C78A8","#F58518","#E45756","#72B7B2","#54A24B","#EECA3B","#B279A2","#FF9DA6","#9D755D","#BAB0AC"];
 const clusterColor = c => clusterPalette[Math.abs(c) % clusterPalette.length];
 
 async function loadData(){
-  const res = await fetch("koi_tsne3d_points.json", {cache:"no-cache"});
+  const res = await fetch("tess_tsne3d_points.json", {cache:"no-cache"});
   if(!res.ok) throw new Error("failed to load data: "+res.status);
   return await res.json();
 }
@@ -235,7 +89,7 @@ function axisLabel(text,pos){
 function buildLegend(el, mode, data, cloudActual, cloudCluster){
   el.innerHTML='';
   if (mode==='actual'){
-    [['#B22222','CANDIDATE'],['#228B22','CONFIRMED']].forEach(([c,n])=>{
+    [['#B22222','PC (candidate)'],['#228B22','CP (confirmed)']].forEach(([c,n])=>{
       const div=document.createElement('div'); div.className='legend-item';
       div.innerHTML=`<span class="legend-dot" style="background:${c}"></span><span>${n}</span>`;
       el.appendChild(div);
@@ -275,7 +129,7 @@ loadData().then(DATA=>{
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping=true; controls.dampingFactor=.06; controls.minDistance=20; controls.maxDistance=400;
   scene.add(new THREE.AmbientLight(0xffffff,.8));
-  const dl=new THREE.DirectionalLight(0xffffff,.35); dl.position.set(50,100,30); scene.add(dl);  // <-- fixed .set
+  const dl=new THREE.DirectionalLight(0xffffff,.35); dl.position.set(50,100,30); scene.add(dl);
   scene.add(new THREE.GridHelper(200,20,0xeaeaea,0xf5f5f5));
 
   const axes=new THREE.Group();
@@ -289,20 +143,19 @@ loadData().then(DATA=>{
 
   // geometry & materials
   const sphere = new THREE.SphereGeometry(1,16,16);
-  const matCandidate = new THREE.MeshBasicMaterial({ color: 0xB22222 });
-  const matConfirmed = new THREE.MeshBasicMaterial({ color: 0x228B22 });
+  const matPC = new THREE.MeshBasicMaterial({ color: 0xB22222 }); // candidate
+  const matCP = new THREE.MeshBasicMaterial({ color: 0x228B22 }); // confirmed
   const clusterMaterials = clusterPalette.map(col => new THREE.MeshBasicMaterial({ color: col }));
 
   const actualGroup = new THREE.Group();
   const clusterGroup = new THREE.Group();
-  scene.add(actualGroup);
-  scene.add(clusterGroup);
+  scene.add(actualGroup, clusterGroup);
 
   const actualMeshes = [];
   const clusterMeshes = [];
   
   DATA.forEach((d, i) => {
-    const mat = d.actual_label === 1 ? matConfirmed : matCandidate;
+    const mat = d.actual_label === 1 ? matCP : matPC;
     const mesh = new THREE.Mesh(sphere, mat);
     mesh.position.set(d.X, d.Y, d.Z);
     mesh.userData = { index: i, data: d };
@@ -347,8 +200,8 @@ loadData().then(DATA=>{
     if(e.key!=='Enter') return;
     const needle = e.target.value.trim().toLowerCase(); if(!needle) return;
     const i = DATA.findIndex(d =>
-      (d.kepid && String(d.kepid).toLowerCase().includes(needle)) ||
-      (d.kepler_name && d.kepler_name.toLowerCase().includes(needle))
+      (d.tid && String(d.tid).toLowerCase().includes(needle)) ||
+      (d.toi && String(d.toi).toLowerCase().includes(needle))
     );
     if (i>=0){
       const spread = parseFloat(spreadEl.value);
@@ -373,11 +226,11 @@ loadData().then(DATA=>{
     const hits = ray.intersectObjects(target.children);
     if (hits.length){
       const d = hits[0].object.userData.data;
-      tip.innerHTML = `<strong>${d.kepler_name || '—'}</strong><br>
-                       kepid: ${d.kepid}<br>
+      tip.innerHTML = `<strong>${d.toi || '—'}</strong><br>
+                       tid: ${d.tid}<br>
                        label: ${d.actual_label_name}<br>
                        cluster: ${d.cluster}<br>
-                       prad: ${Number.isFinite(d.koi_prad)?d.koi_prad.toFixed(2):'—'}, teq: ${Number.isFinite(d.koi_teq)?d.koi_teq.toFixed(0):'—'}`;
+                       R⊕: ${Number.isFinite(d.pl_rade)?d.pl_rade.toFixed(2):'—'}, T_eq: ${Number.isFinite(d.pl_eqt)?d.pl_eqt.toFixed(0):'—'}`;
       tip.style.display='block'; 
       tip.style.left=(e.clientX+10)+'px'; 
       tip.style.top=(e.clientY-28)+'px';
@@ -397,31 +250,4 @@ loadData().then(DATA=>{
 });
 </script>
 </body>
-</html>"""
-
-OUT_HTML.write_text(VIEWER_HTML, encoding="utf-8")
-
-print(f"✅ wrote {OUT_JSON.name} ({len(points)} points)")
-print(f"✅ wrote {OUT_HTML.name}")
-print(f"   projector: {projector_used} | clustering: {clustering_used}")
-
-# ---------------------------
-# Serve viewer.html on localhost (foreground)
-# ---------------------------
-import os, time, webbrowser
-from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
-
-PORT = 8008
-os.chdir(args.out_dir)  # make sure viewer.html and koi_tsne3d_points.json are here
-
-server = ThreadingHTTPServer(("127.0.0.1", PORT), SimpleHTTPRequestHandler)
-print(f"🌐 Serving on http://127.0.0.1:{PORT}/viewer.html  (Ctrl+C to stop)")
-
-webbrowser.open(f"http://127.0.0.1:{PORT}/viewer.html")
-try:
-    server.serve_forever()
-except KeyboardInterrupt:
-    pass
-finally:
-    server.server_close()
-    print("👋 Server stopped")
+</html>
