@@ -36,7 +36,6 @@
 
   <!-- KPI blocks -->
   <div id="kpis">
-    <div class="kpi"><div id="kpi-total" class="v">—</div><div class="l">Total points</div></div>
     <div class="kpi"><div id="kpi-cand"  class="v">—</div><div class="l">Candidates</div></div>
     <div class="kpi"><div id="kpi-conf"  class="v">—</div><div class="l">Confirmed</div></div>
   </div>
@@ -114,7 +113,6 @@ loadData().then(DATA=>{
   const total = DATA.length;
   const confirmed = DATA.filter(d=>d.actual_label===1).length;
   const candidates = total - confirmed;
-  document.getElementById('kpi-total').textContent = total.toLocaleString();
   document.getElementById('kpi-cand').textContent  = candidates.toLocaleString();
   document.getElementById('kpi-conf').textContent  = confirmed.toLocaleString();
 
