@@ -7,22 +7,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <style>
-  body{margin:0; font-family:'Segoe UI', Helvetica, Arial, sans-serif; background:#f8f9fa}
-  #wrap{position:relative; width:100%; height:min(95vh,100svh); min-height:640px; overflow:hidden;}
-  #title{position:absolute; top:16px; left:16px; z-index:10; color:#333; font-weight:700; font-size:20px}
-  #sub{font-size:13px; color:#666; font-weight:400; margin-top:4px}
+  html, body { height:100%; }
+  body{margin:0; font-family:'Segoe UI', Helvetica, Arial, sans-serif; background:#f8f9fa; height:100%;}
+  #wrap{position:relative; width:100%; height:100%; min-height:0; overflow:hidden;}
+  #wrap > canvas{position:absolute; inset:0; width:100% !important; height:100% !important; display:block}
+  #title{position:absolute; top:12px; left:12px; z-index:10; color:#333; font-weight:700; font-size:18px}
+  #sub{font-size:12px; color:#666; font-weight:400; margin-top:3px}
 
-  #left-sliders{position:absolute; left:16px; top:174px; z-index:9; display:flex; flex-direction:column; gap:12px}
-  #left-sliders .sliderline{background:#fff; padding:10px 12px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.08); width:min(320px, 70vw)}
-  #left-sliders label{display:block; font-size:12px; color:#555; margin-bottom:6px; font-weight:500}
-  #left-sliders input[type="range"]{width:100%; height:6px; appearance:none; background:#e9ecef; border-radius:999px; outline:none}
+  #left-sliders{position:absolute; left:12px; top:128px; z-index:9; display:flex; flex-direction:column; gap:10px}
+  #left-sliders .sliderline{background:#fff; padding:8px 10px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.08); width:min(260px, 55vw)}
+  #left-sliders label{display:block; font-size:11px; color:#555; margin-bottom:6px; font-weight:500}
+  #left-sliders input[type="range"]{width:100%; height:5px; appearance:none; background:#e9ecef; border-radius:999px; outline:none}
   #left-sliders input[type="range"]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; border-radius:50%; background:#1971ff; border:none; box-shadow:0 1px 3px rgba(0,0,0,.2)}
 
-  #kpis{position:absolute; top:84px; left:16px; z-index:9; display:flex; gap:12px}
-  .kpi{background:rgba(255,255,255,0.98); padding:12px 16px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.1); min-width:120px; transition:all 0.2s; position:relative; overflow:hidden}
+  #kpis{position:absolute; top:64px; left:12px; z-index:9; display:flex; gap:10px}
+  .kpi{background:rgba(255,255,255,0.98); padding:10px 12px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.1); min-width:100px; transition:all 0.2s; position:relative; overflow:hidden}
   .kpi:hover{transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,.12)}
-  .kpi .v{font-size:24px; font-weight:700; color:#222; line-height:1}
-  .kpi .l{font-size:11px; color:#666; margin-top:4px; text-transform:uppercase; letter-spacing:.05em}
+  .kpi .v{font-size:18px; font-weight:700; color:#222; line-height:1}
+  .kpi .l{font-size:10px; color:#666; margin-top:4px; text-transform:uppercase; letter-spacing:.05em}
   .kpi.candidate{border-top:3px solid #DC143C}
   .kpi.confirmed{border-top:3px solid #32CD32}
 
@@ -138,7 +140,7 @@ loadData().then(DATA=>{
 
   const scene = new THREE.Scene(); scene.background = new THREE.Color(0xf8f9fa); scene.fog = new THREE.Fog(0xf8f9fa, 200, 500);
   const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000); camera.position.set(120, 80, 120);
-  function fit(){ const w=wrap.clientWidth, h=wrap.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  function fit(){ const w=wrap.clientWidth, h=wrap.clientHeight; renderer.setSize(w,h,true); camera.aspect=w/h; camera.updateProjectionMatrix(); }
   fit(); new ResizeObserver(fit).observe(wrap);
 
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
