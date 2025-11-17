@@ -13,6 +13,7 @@ from pathlib import Path
 p = argparse.ArgumentParser()
 p.add_argument("--koi",  default="data/Kepler Object of Interest.csv", help="path to KOI CSV/XLSX")
 p.add_argument("--tess", default="data/TESS Project Candidates.csv",   help="path to TESS CSV/XLSX")
+p.add_argument("--dataset", choices=["koi","tess","both"], default="both", help="which dataset/features to use")
 p.add_argument("--projector", choices=["tsne","umap","pca"], default="tsne", help="3D projector")
 p.add_argument("--out_dir", default=".", help="output folder for json/html")
 p.add_argument("--seed", type=int, default=42)
@@ -74,82 +75,150 @@ def load_any(path: Path) -> pd.DataFrame:
         return pd.read_excel(path)
     return pd.read_csv(path)
 
-# ---------------------------
-# Load & harmonize KOI
-# ---------------------------
-df_koi_raw = load_any(KOI_PATH)
-df_koi_raw.columns = df_koi_raw.columns.astype(str).str.strip()
-
-need_koi = list(koi_keep_map.keys())
-missing_koi = [c for c in need_koi + [koi_target_col] if c not in df_koi_raw.columns]
-if missing_koi:
-    raise KeyError(f"KOI missing required columns: {missing_koi}")
-
-df_koi = df_koi_raw[need_koi + [koi_target_col]].copy()
-df_koi.rename(columns=koi_keep_map, inplace=True)
-df_koi["disposition"] = df_koi[koi_target_col].apply(normalize_label)
-df_koi.drop(columns=[koi_target_col], inplace=True)
-for c in ["kepid", "kepler_name", "kepoi_name"]:
-    if c not in df_koi_raw.columns:
-        df_koi[c] = np.nan
-    else:
-        df_koi[c] = df_koi_raw[c]
-df_koi["source"] = "KOI"
-df_koi = df_koi[df_koi["disposition"].isin(["CONFIRMED","CANDIDATE"])]
+dataset = args.dataset.lower()
 
 # ---------------------------
-# Load & harmonize TESS
+# Load dataframes and select features by dataset mode
 # ---------------------------
-df_tess_raw = load_any(TESS_PATH)
-df_tess_raw.columns = df_tess_raw.columns.astype(str).str.strip()
+if dataset == "koi":
+    # KOI: use user-provided training features (base + FP flags)
+    df_koi_raw = load_any(KOI_PATH)
+    df_koi_raw.columns = df_koi_raw.columns.astype(str).str.strip()
 
-need_tess = list(tess_keep_map.keys())
-missing_tess = [c for c in need_tess + [tess_target_col] if c not in df_tess_raw.columns]
-if missing_tess:
-    raise KeyError(f"TESS missing required columns: {missing_tess}")
+    koi_features_base = [
+        "koi_period", "koi_time0bk", "koi_duration", "koi_depth",
+        "koi_prad", "koi_teq", "koi_steff", "koi_slogg", "koi_srad", "koi_kepmag",
+    ]
+    koi_features_fp = ["koi_fpflag_nt","koi_fpflag_ss","koi_fpflag_co","koi_fpflag_ec"]
+    koi_required = koi_features_base + koi_features_fp + [koi_target_col]
+    missing = [c for c in koi_required if c not in df_koi_raw.columns]
+    if missing:
+        raise KeyError(f"KOI missing required columns for selected features: {missing}")
 
-df_tess = df_tess_raw[need_tess + [tess_target_col]].copy()
-df_tess.rename(columns=tess_keep_map, inplace=True)
-df_tess["disposition"] = df_tess[tess_target_col].apply(normalize_label)
-df_tess.drop(columns=[tess_target_col], inplace=True)
-for c in ["toi", "tid", "tic", "toi_name"]:
-    if c not in df_tess_raw.columns:
-        df_tess[c] = np.nan
-    else:
-        df_tess[c] = df_tess_raw[c]
-df_tess["source"] = "TESS"
-df_tess = df_tess[df_tess["disposition"].isin(["CONFIRMED","CANDIDATE"])]
+    df = df_koi_raw[koi_required].copy()
+    df["disposition"] = df[koi_target_col].apply(normalize_label)
+    df.drop(columns=[koi_target_col], inplace=True)
+    for c in ["kepid", "kepler_name", "kepoi_name"]:
+        if c not in df_koi_raw.columns:
+            df[c] = np.nan
+        else:
+            df[c] = df_koi_raw[c]
+    df["source"] = "KOI"
+    feature_cols = koi_features_base + koi_features_fp
 
-# ---------------------------
-# Union on shared feature set
-# ---------------------------
-shared_feature_cols = sorted(
-    set(df_koi.columns).intersection(df_tess.columns)
-    - {"disposition","source","kepid","kepler_name","kepoi_name","toi","tid","tic","toi_name"}
-)
-if not shared_feature_cols:
-    raise RuntimeError("No shared features between KOI and TESS after mapping.")
+elif dataset == "tess":
+    # TESS: use user-provided training features (base set)
+    df_tess_raw = load_any(TESS_PATH)
+    df_tess_raw.columns = df_tess_raw.columns.astype(str).str.strip()
 
-for c in shared_feature_cols:
-    df_koi[c]  = pd.to_numeric(df_koi[c],  errors="coerce")
-    df_tess[c] = pd.to_numeric(df_tess[c], errors="coerce")
+    tess_features_base = [
+        "pl_orbper","pl_trandurh","pl_trandep",
+        "pl_rade","pl_eqt","pl_insol",
+        "st_teff","st_logg","st_rad","st_tmag","st_dist",
+    ]
+    tess_required = tess_features_base + [tess_target_col]
+    missing = [c for c in tess_required if c not in df_tess_raw.columns]
+    if missing:
+        raise KeyError(f"TESS missing required columns for selected features: {missing}")
 
-df_koi_small  = df_koi[shared_feature_cols + ["disposition","source","kepid","kepler_name","kepoi_name"]]
-df_tess_small = df_tess[shared_feature_cols + ["disposition","source","toi","tid","tic","toi_name"]]
+    df = df_tess_raw[tess_required].copy()
+    df["disposition"] = df[tess_target_col].apply(normalize_label)
+    df.drop(columns=[tess_target_col], inplace=True)
+    for c in ["toi", "tid", "tic", "toi_name"]:
+        if c not in df_tess_raw.columns:
+            df[c] = np.nan
+        else:
+            df[c] = df_tess_raw[c]
+    df["source"] = "TESS"
+    feature_cols = tess_features_base
 
-combo_df = pd.concat([df_koi_small, df_tess_small], ignore_index=True)
-before = len(combo_df)
-combo_df = combo_df.dropna(subset=shared_feature_cols + ["disposition","source"]).reset_index(drop=True)
-after = len(combo_df)
-print(f"Shared features: {shared_feature_cols}")
-print(f"Dropped {before - after} rows with missing values (kept {after})")
-print(combo_df["disposition"].value_counts())
+else:
+    # BOTH: harmonize to unified shared schema (mapped features)
+    # Load & harmonize KOI
+    df_koi_raw = load_any(KOI_PATH)
+    df_koi_raw.columns = df_koi_raw.columns.astype(str).str.strip()
 
-# ---------------------------
-# Labels & matrix
-# ---------------------------
-y = combo_df["disposition"].map({"CONFIRMED":1, "CANDIDATE":0}).astype(int).values
-X = combo_df[shared_feature_cols].values
+    need_koi = list(koi_keep_map.keys())
+    missing_koi = [c for c in need_koi + [koi_target_col] if c not in df_koi_raw.columns]
+    if missing_koi:
+        raise KeyError(f"KOI missing required columns: {missing_koi}")
+
+    df_koi = df_koi_raw[need_koi + [koi_target_col]].copy()
+    df_koi.rename(columns=koi_keep_map, inplace=True)
+    df_koi["disposition"] = df_koi[koi_target_col].apply(normalize_label)
+    df_koi.drop(columns=[koi_target_col], inplace=True)
+    for c in ["kepid", "kepler_name", "kepoi_name"]:
+        if c not in df_koi_raw.columns:
+            df_koi[c] = np.nan
+        else:
+            df_koi[c] = df_koi_raw[c]
+    df_koi["source"] = "KOI"
+    df_koi = df_koi[df_koi["disposition"].isin(["CONFIRMED","CANDIDATE"])]
+
+    # Load & harmonize TESS
+    df_tess_raw = load_any(TESS_PATH)
+    df_tess_raw.columns = df_tess_raw.columns.astype(str).str.strip()
+
+    need_tess = list(tess_keep_map.keys())
+    missing_tess = [c for c in need_tess + [tess_target_col] if c not in df_tess_raw.columns]
+    if missing_tess:
+        raise KeyError(f"TESS missing required columns: {missing_tess}")
+
+    df_tess = df_tess_raw[need_tess + [tess_target_col]].copy()
+    df_tess.rename(columns=tess_keep_map, inplace=True)
+    df_tess["disposition"] = df_tess[tess_target_col].apply(normalize_label)
+    df_tess.drop(columns=[tess_target_col], inplace=True)
+    for c in ["toi", "tid", "tic", "toi_name"]:
+        if c not in df_tess_raw.columns:
+            df_tess[c] = np.nan
+        else:
+            df_tess[c] = df_tess_raw[c]
+    df_tess["source"] = "TESS"
+    df_tess = df_tess[df_tess["disposition"].isin(["CONFIRMED","CANDIDATE"])]
+
+    # Union on shared feature set from the unified schema
+    shared_feature_cols = sorted(
+        set(df_koi.columns).intersection(df_tess.columns)
+        - {"disposition","source","kepid","kepler_name","kepoi_name","toi","tid","tic","toi_name"}
+    )
+    if not shared_feature_cols:
+        raise RuntimeError("No shared features between KOI and TESS after mapping.")
+
+    for c in shared_feature_cols:
+        df_koi[c]  = pd.to_numeric(df_koi[c],  errors="coerce")
+        df_tess[c] = pd.to_numeric(df_tess[c], errors="coerce")
+
+    df_koi_small  = df_koi[shared_feature_cols + ["disposition","source","kepid","kepler_name","kepoi_name"]]
+    df_tess_small = df_tess[shared_feature_cols + ["disposition","source","toi","tid","tic","toi_name"]]
+
+    combo_df = pd.concat([df_koi_small, df_tess_small], ignore_index=True)
+    before = len(combo_df)
+    combo_df = combo_df.dropna(subset=shared_feature_cols + ["disposition","source"]).reset_index(drop=True)
+    after = len(combo_df)
+    print(f"Shared features: {shared_feature_cols}")
+    print(f"Dropped {before - after} rows with missing values (kept {after})")
+    print(combo_df["disposition"].value_counts())
+
+    # Labels & matrix
+    y = combo_df["disposition"].map({"CONFIRMED":1, "CANDIDATE":0}).astype(int).values
+    X = combo_df[shared_feature_cols].values
+
+# For single-dataset modes, finish building X/y and combo_df
+if dataset in ("koi","tess"):
+    # Filter to valid labels and numeric features
+    df = df[df["disposition"].isin(["CONFIRMED","CANDIDATE"])]
+    for c in feature_cols:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+    before = len(df)
+    df = df.dropna(subset=feature_cols + ["disposition"]).reset_index(drop=True)
+    after = len(df)
+    print(f"Features ({dataset}): {feature_cols}")
+    print(f"Dropped {before - after} rows with missing values (kept {after})")
+    print(df["disposition"].value_counts())
+
+    y = df["disposition"].map({"CONFIRMED":1, "CANDIDATE":0}).astype(int).values
+    X = df[feature_cols].values
+    combo_df = df
 
 # ---------------------------
 # Scale + project to 3D
@@ -220,8 +289,17 @@ for i, (x, y_, z) in enumerate(coords):
         "tid":         str(row.get("tid","")) if pd.notna(row.get("tid", np.nan)) else "",
         "tic":         str(row.get("tic","")) if pd.notna(row.get("tic", np.nan)) else "",
         "toi_name":    str(row.get("toi_name","")) if pd.notna(row.get("toi_name", np.nan)) else "",
-        "prad_re": float(row.get("prad_re", np.nan)),
-        "teq_k":   float(row.get("teq_k", np.nan)),
+        # include commonly-inspected values, with fallbacks for dataset-specific columns
+        "prad_re": float(
+            row.get("prad_re", np.nan)
+            if pd.notna(row.get("prad_re", np.nan)) else
+            row.get("koi_prad", row.get("pl_rade", np.nan))
+        ),
+        "teq_k":   float(
+            row.get("teq_k", np.nan)
+            if pd.notna(row.get("teq_k", np.nan)) else
+            row.get("koi_teq", row.get("pl_eqt", np.nan))
+        ),
     })
 
 OUT_JSON.write_text(json.dumps(points), encoding="utf-8")
