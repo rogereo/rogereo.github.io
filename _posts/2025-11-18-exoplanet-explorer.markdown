@@ -141,4 +141,5 @@ References
 - [LightKurve API](https://lightkurve.github.io/lightkurve/tutorials/1-getting-started/using-light-curve-file-products.html?highlight=tesslightcurve&utm_source=chatgpt.com) – Python library for accessing and analyzing NASA light curves
 - [Exoplanet Detection Using Machine Learning](https://academic.oup.com/mnras/article/513/4/5505/6472249?login=false) – ML techniques for identifying exoplanet candidates
 - [Assessment of Ensemble-Based Machine Learning Algorithms for Exoplanet Identification](https://www.mdpi.com/2079-9292/13/19/3950) – study comparing ensemble models for detection
-- [Exoplanet Explorer](https://exoplanet-dvu2.onrender.com/) – interactive tool for visualizing exoplanet datasets and model results
+- [Github](https://github.com/rogereo/NASA-Space-Apps) – NASA Space Apps Github repository
+- [Exoplanet Explorer](https://exoplanet-dvu2.onrender.com/) – interactive tool for visualizing exoplanet datasets and model results 
