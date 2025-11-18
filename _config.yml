@@ -8,6 +8,9 @@ twitter_username: arendse_roger
 github_username:  rogereo
 goodreads_username: rogereo
 instagram_username: rogereo11
+plugins:
+  - jekyll-reading-time
+
 
 # Build settings
 markdown: kramdown
