@@ -129,7 +129,7 @@ tags:
 </p>
 
 ### Conclusion
-> In the end, I came away from this project with a ton of valuable lessons. The project didn’t end exactly as we planned or fully finished, but we still built something real, and I picked up some great skills and insights about space data. I met some interesting people along the way as well. I’ve always been interested in space, but I thought exploration was only for experts or people already in the field. I was surprised to discover how much satellite data is openly available. A huge world of information for anyone who wants to explore.
+> In the end, I learned a lot from this experience. The project didn’t end exactly as we planned or fully finished, but we still built something real, and I picked up some great skills and insights about space data. I met some interesting people along the way as well. I’ve always been interested in space, but I thought exploration was only for experts or people already in the field. I was surprised to discover how much satellite data is openly available. A huge world of information for anyone who wants to explore.
 
 -----
 References
