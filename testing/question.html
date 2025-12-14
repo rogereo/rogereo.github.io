@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>question. | A Quiet Revolution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        html, body { height: 100%; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* Stone-100 */
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        h1, h2, h3, .serif-font {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .card-container {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.8s, opacity 0.5s;
+            transform-style: preserve-3d;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom Scrollbar for aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased min-h-screen flex flex-col">
+
+    <!-- NAV -->
+    <nav class="w-full px-6 md:px-10 py-6 flex justify-between items-center bg-transparent z-10">
+        <div class="flex items-baseline gap-3">
+            <div class="text-2xl font-bold tracking-tighter">question.</div>
+        </div>
+        <div class="space-x-6 text-xs tracking-[0.25em] uppercase hidden md:block">
+            <a href="#experience" class="hover:text-stone-500 transition">Draw a Card</a>
+            <a href="#manifesto" class="hover:text-stone-500 transition">The Manifesto</a>
+            <a href="#how-it-works" class="hover:text-stone-500 transition">How It Works</a>
+            <a href="#early-access" class="hover:text-stone-500 transition">Early Access</a>
+        </div>
+    </nav>
+
+    <!-- HERO + CARD EXPERIENCE -->
+    <main id="experience" class="flex-grow flex flex-col items-center justify-center px-4 pt-4 pb-12 relative">
+
+        <div class="text-center mb-8 fade-in max-w-xl mx-auto">
+            <p class="uppercase tracking-[0.2em] text-xs mb-2 text-stone-500">
+                A Quiet Revolution in Reflection
+            </p>
+            <h1 class="text-4xl md:text-5xl font-light text-stone-900 leading-tight">
+                It is not a product.<br />It is a mirror.
+            </h1>
+            <p class="mt-4 text-sm md:text-base text-stone-600 leading-relaxed">
+                Each card is a soft interruption to autopilot—one question and one quote
+                designed to give you back to yourself, one quiet moment at a time.
+            </p>
+        </div>
+
+        <!-- CARD AREA -->
+        <!-- Mobile-safe height: stays 600px on desktop, but fits smaller screens without cutting off -->
+        <div class="card-container w-full max-w-md h-[min(600px,72vh)] min-h-[460px] relative">
+
+            <!-- BACK OF CARD -->
+            <div
+                id="card-back"
+                class="absolute inset-0 bg-stone-900 rounded-lg shadow-2xl flex flex-col items-center justify-center cursor-pointer transition transform hover:scale-[1.02] active:scale-[1.01] border border-stone-800 select-none"
+                onclick="drawCard()"
+                role="button"
+                aria-label="Tap to draw a card"
+            >
+                <div class="text-stone-400 text-6xl opacity-20">?</div>
+                <p class="mt-4 text-stone-300 tracking-widest uppercase text-xs">
+                    Tap to Reflect
+                </p>
+                <p class="mt-2 text-[10px] tracking-[0.2em] text-stone-500 uppercase">
+                    or press Space to draw
+                </p>
+            </div>
+
+            <!-- FACE OF CARD -->
+            <div
+                id="card-face"
+                class="hidden absolute inset-0 rounded-lg shadow-2xl flex flex-col p-8 md:p-12 justify-between transition-all duration-700"
+            >
+                <div class="flex justify-between items-start">
+                    <span id="card-type-icon" class="text-2xl"></span>
+                    <span id="card-id" class="text-[10px] tracking-[0.22em] opacity-50 uppercase"></span>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-center">
+                    <p class="text-[10px] uppercase tracking-[0.28em] mb-4 opacity-60">
+                        Dreamer
+                    </p>
+                    <h2
+                        id="card-question"
+                        class="text-3xl md:text-4xl leading-tight serif-font font-medium italic"
+                    ></h2>
+                </div>
+
+                <div class="mt-8 border-t pt-6 border-current opacity-80">
+                    <p class="text-[10px] uppercase tracking-[0.28em] mb-2 opacity-60">
+                        Shaper
+                    </p>
+                    <p
+                        id="card-quote"
+                        class="text-sm md:text-base serif-font leading-relaxed"
+                    ></p>
+                    <p
+                        id="card-author"
+                        class="text-right text-xs mt-2 italic opacity-70"
+                    ></p>
+                </div>
+
+                <div
+                    class="mt-6 flex items-center justify-between opacity-60 hover:opacity-100 transition cursor-pointer"
+                >
+                    <div class="flex items-center gap-2">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                            />
+                        </svg>
+                        <span class="text-[10px] uppercase tracking-[0.22em]">
+                            Listen to the Echo (NotebookLM)
+                        </span>
+                    </div>
+                    <!-- Placeholder “QR / Audio” block -->
+                    <div class="h-8 w-8 bg-current opacity-15 rounded-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD LEGEND + CONTROLS -->
+        <div class="mt-4 flex flex-col items-center gap-4">
+            <p class="text-[10px] text-stone-500 tracking-[0.22em] uppercase text-center">
+                ⚪ White — “Who are you?” &nbsp;&nbsp;•&nbsp;&nbsp;
+                ⚫ Black — “Where are you going?”
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 items-center">
+                <button
+                    onclick="drawCard()"
+                    class="px-6 py-3 bg-stone-900 text-stone-50 hover:bg-stone-700 transition rounded-full text-[10px] uppercase tracking-[0.25em]"
+                >
+                    Draw Another
+                </button>
+
+                <div class="flex items-center gap-2 text-[10px] text-stone-500 tracking-[0.2em] uppercase">
+                    <span class="hidden sm:inline">Or press Space</span>
+                    <span class="inline sm:hidden">Tap card again</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="bg-white py-16 px-4 border-t border-stone-200">
+        <div class="max-w-4xl mx-auto space-y-10">
+            <div class="text-center">
+                <h3 class="text-3xl serif-font mb-3">How the ritual works</h3>
+                <p class="text-sm md:text-base text-stone-600 max-w-xl mx-auto">
+                    A deck, a question, a quote, and a short audio reflection.
+                    Simple enough to repeat often. Deep enough to matter.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 text-sm">
+                <div>
+                    <p class="uppercase text-[10px] tracking-[0.25em] text-stone-500 mb-2">Step 1</p>
+                    <h4 class="font-semibold mb-1">Draw</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Pull a card at random. Don’t hunt for the “right” one. Let the
+                        question arrive as it is.
+                    </p>
+                </div>
+                <div>
+                    <p class="uppercase text-[10px] tracking-[0.25em] text-stone-500 mb-2">Step 2</p>
+                    <h4 class="font-semibold mb-1">Sit with it</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Read the question slowly. Notice which words feel heavy, sharp,
+                        or unexpectedly soft.
+                    </p>
+                </div>
+                <div>
+                    <p class="uppercase text-[10px] tracking-[0.25em] text-stone-500 mb-2">Step 3</p>
+                    <h4 class="font-semibold mb-1">Listen</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Scan the QR to hear the AI conversation unpack the card with
+                        you—a quiet “echo” of the prompt.
+                    </p>
+                </div>
+                <div>
+                    <p class="uppercase text-[10px] tracking-[0.25em] text-stone-500 mb-2">Step 4</p>
+                    <h4 class="font-semibold mb-1">Respond</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Journal, think, walk, or speak it out loud. The point is not a
+                        perfect answer, but an honest one.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MANIFESTO / PHILOSOPHY -->
+    <section id="manifesto" class="bg-white py-20 px-4">
+        <div class="max-w-2xl mx-auto space-y-8">
+            <h3 class="text-3xl serif-font text-center mb-12">The Philosophy</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold mb-2">⚪ White Cards</h4>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        “Who are you?” These cards invite introspection, exploring
+                        identity, emotional honesty, and inner truth.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-2">⚫ Black Cards</h4>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        “Where are you going?” These cards explore vision, ambition,
+                        courage, and creative risk.
+                    </p>
+                </div>
+            </div>
+
+            <blockquote class="border-l-2 border-stone-900 pl-6 py-2 my-10 text-xl serif-font italic text-stone-800">
+                “The goal is not to provide answers. The goal is to give people back
+                to themselves—through better questions.”
+            </blockquote>
+
+            <div class="grid md:grid-cols-3 gap-8 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-2">For individuals</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Morning rituals, night-time reflections, solo walks, and quiet
+                        journaling sessions where you want a deeper prompt than
+                        “How was your day?”
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">For duos & circles</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Use a single card to open a deeper conversation with a partner,
+                        friend, or small group—one question at a time.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">For teams</h4>
+                    <p class="text-stone-600 leading-relaxed">
+                        Swap icebreakers for real breakers. Start strategy sessions,
+                        retros, or offsites with one shared card and five minutes of
+                        honest thinking.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EARLY ACCESS CTA -->
+    <section id="early-access" class="bg-stone-900 text-stone-50 py-16 px-4 border-t border-stone-800">
+        <div class="max-w-2xl mx-auto text-center space-y-6">
+            <h3 class="text-3xl serif-font">Be part of the first quiet wave</h3>
+            <p class="text-sm md:text-base text-stone-300 leading-relaxed">
+                I’m prototyping the first print run of <span class="italic">question.</span>
+                cards and the linked AI podcast. Leave your email if you’d like to
+                hear when the deck, digital tools, and card generator go live.
+            </p>
+
+            <form action="#" method="post" class="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="you@example.com"
+                    class="px-4 py-3 rounded-full text-sm text-stone-900 w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-stone-400"
+                    inputmode="email"
+                    autocomplete="email"
+                />
+                <button
+                    type="submit"
+                    class="px-6 py-3 rounded-full bg-stone-50 text-stone-900 text-[10px] uppercase tracking-[0.25em] hover:bg-stone-200 transition"
+                >
+                    Join Early Access
+                </button>
+            </form>
+
+            <p class="text-[11px] text-stone-500 max-w-sm mx-auto">
+                No newsletter machine. Just occasional notes when something real is
+                ready to hold, click, or listen to.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="p-8 text-center text-stone-400 text-xs">
+        <p>&copy; 2025 question. &mdash; Designed to interrupt autopilot.</p>
+    </footer>
+
+    <script>
+        // Data for the prototype deck
+        const cards = [
+            {
+                id: "001",
+                type: "white", // Introspection
+                question: "What part of yourself have you silenced to keep the peace?",
+                quote: "The privilege of a lifetime is to become who you truly are.",
+                author: "Carl Jung"
+            },
+            {
+                id: "002",
+                type: "black", // Vision/Ambition
+                question: "If you knew you could not fail, what empire would you build tomorrow?",
+                quote: "Only those who will risk going too far can possibly find out how far one can go.",
+                author: "T.S. Eliot"
+            },
+            {
+                id: "003",
+                type: "white", // Shadow Work
+                question: "When do you feel most like a stranger in your own life?",
+                quote: "We carry inside us the wonders we seek outside us.",
+                author: "Rumi"
+            },
+            {
+                id: "004",
+                type: "black", // Legacy
+                question: "What is the one creative risk that currently scares you into growth?",
+                quote: "Do not go where the path may lead, go instead where there is no path and leave a trail.",
+                author: "Ralph Waldo Emerson"
+            },
+            {
+                id: "005",
+                type: "white", // Identity
+                question: "Who were you before the world told you who to be?",
+                quote: "It takes courage to grow up and become who you really are.",
+                author: "E.E. Cummings"
+            }
+        ];
+
+        function drawCard() {
+            const cardBack = document.getElementById('card-back');
+            const cardFace = document.getElementById('card-face');
+
+            // Randomly select a card
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+
+            // Animation reset
+            cardFace.classList.add('hidden');
+            cardBack.classList.remove('hidden');
+
+            setTimeout(() => {
+                renderCard(randomCard);
+                cardBack.classList.add('hidden');
+                cardFace.classList.remove('hidden');
+                cardFace.classList.add('fade-in');
+            }, 200); // Short delay for "shuffle" feel
+        }
+
+        function renderCard(card) {
+            const face = document.getElementById('card-face');
+            const typeIcon = document.getElementById('card-type-icon');
+            const idLabel = document.getElementById('card-id');
+            const questionEl = document.getElementById('card-question');
+            const quoteEl = document.getElementById('card-quote');
+            const authorEl = document.getElementById('card-author');
+
+            // Apply Styling based on Type (White or Black)
+            if (card.type === 'white') {
+                face.className = "absolute inset-0 rounded-lg shadow-2xl flex flex-col p-8 md:p-12 justify-between transition-all duration-700 bg-white text-stone-900 border border-stone-200";
+                typeIcon.textContent = "⚪";
+            } else {
+                face.className = "absolute inset-0 rounded-lg shadow-2xl flex flex-col p-8 md:p-12 justify-between transition-all duration-700 bg-stone-900 text-stone-100 border border-stone-800";
+                typeIcon.textContent = "⚫";
+            }
+
+            // Inject Content
+            idLabel.textContent = `${card.type.toUpperCase()} CARD #${card.id}`;
+            questionEl.textContent = card.question;
+            quoteEl.textContent = `"${card.quote}"`;
+            authorEl.textContent = `— ${card.author}`;
+        }
+
+        // Keyboard shortcut: Space to draw another card (desktop)
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                drawCard();
+            }
+        });
+    </script>
+</body>
+</html>
