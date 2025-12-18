@@ -1,0 +1,35 @@
+<div id="content" class="hidden">
+    <h1 id="display-id"></h1>
+    <p id="display-question" class="serif-font italic text-xl"></p>
+    
+    <audio id="audio-player" controls class="w-full mt-4">
+        <source id="audio-source" src="" type="audio/mp4">
+    </audio>
+
+    <div class="mt-8">
+        <textarea id="comment-box" placeholder="Write your reflection..."></textarea>
+        <button onclick="saveComment()">Post</button>
+    </div>
+</div>
+
+<script>
+    // 1. Get the ID from the URL
+    const params = new URLSearchParams(window.location.search);
+    const cardId = params.get('id');
+
+    // 2. Fetch data and update UI
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            const card = data[cardId];
+            if (card) {
+                document.getElementById('display-id').innerText = `Card #${cardId}`;
+                document.getElementById('display-question').innerText = card.question;
+                document.getElementById('audio-source').src = card.audioUrl;
+                document.getElementById('audio-player').load(); // Update player
+                document.getElementById('content').classList.remove('hidden');
+            } else {
+                document.body.innerHTML = "<h1>Reflection not found.</h1>";
+            }
+        });
+</script>
