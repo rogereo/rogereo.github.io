@@ -4,5 +4,139 @@
     "question": "What would you need to believe about yourself in order to dream without limits?",
     "quote": "Believe you can and you’re halfway there.",
     "author": "Theodore Roosevelt",
-    "audioUrl": "podcasts/000001.m4a"}
+    "audioUrl": "podcasts/000001.m4a"
+  },
+  "000002": {
+    "type": "black",
+    "question": "What’s scarier to you—falling short of your dreams, or realizing you’ve always had the power to reach them?",
+    "quote": "Our deepest fear is not that we are inadequate. Our deepest fear is that we are powerful beyond measure.",
+    "author": "Marianne Williamson",
+    "audioUrl": "podcasts/000002.m4a"
+  },
+  "000003": {
+    "type": "black",
+    "question": "What would your life look like if you fully committed to becoming the person your dreams require?",
+    "quote": "You must expect great things of yourself before you can do them.",
+    "author": "Michael Jordan",
+    "audioUrl": "podcasts/000003.m4a"
+  },
+  "000004": {
+    "type": "black",
+    "question": "If your future self could hand you one bold decision to make today, what would it be?",
+    "quote": "In the middle of every difficulty lies opportunity.",
+    "author": "Albert Einstein",
+    "audioUrl": "podcasts/000004.m4a"
+  },
+  "000005": {
+    "type": "black",
+    "question": "If you knew your dream would work—but only if you never looked back—would you still go?",
+    "quote": "Once we accept our limits, we go beyond them.",
+    "author": "Albert Einstein",
+    "audioUrl": "podcasts/000005.m4a"
+  },
+  "000006": {
+    "type": "white",
+    "question": "What would your life look like if you had never learned to doubt yourself?",
+    "quote": "The real voyage of discovery consists not in seeking new landscapes, but in having new eyes.",
+    "author": "Marcel Proust",
+    "audioUrl": "podcasts/000006.m4a"
+  },
+  "000007": {
+    "type": "white",
+    "question": "If your thoughts from the past 24 hours were projected onto a wall, would you recognize yourself?",
+    "quote": "Until you make the unconscious conscious, it will direct your life and you will call it fate.",
+    "author": "Carl Jung",
+    "audioUrl": "podcasts/000007.m4a"
+  },
+  "000008": {
+    "type": "white",
+    "question": "If your private thoughts were honest, how often would they contradict the person you present?",
+    "quote": "The most terrifying thing is to accept oneself completely.",
+    "author": "Carl Jung",
+    "audioUrl": "podcasts/000008.m4a"
+  },
+  "000009": {
+    "type": "white",
+    "question": "What habit do you call “who I am” that is really just something you never challenged?",
+    "quote": "We become what we do repeatedly.",
+    "author": "Will Durant",
+    "audioUrl": "podcasts/000009.m4a"
+  },
+  "000010": {
+    "type": "white",
+    "question": "If someone followed you for a week, would your actions reflect your values—or your fears?",
+    "quote": "Your actions are your loudest beliefs.",
+    "author": "Brendon Burchard",
+    "audioUrl": "podcasts/000010.m4a"
+  },
+  "000011": {
+    "type": "black",
+    "question": "If you woke up five years from now, what would tell you immediately that you stayed on the same path?",
+    "quote": "Change happens when the pain of staying the same is greater than the pain of change.",
+    "author": "Tony Robbins",
+    "audioUrl": "podcasts/000011.m4a"
+  },
+  "000012": {
+    "type": "black",
+    "question": "If you had to explain your current direction to your 18-year-old self, what would feel hardest to justify?",
+    "quote": "Live your life as an answer to the question of how to live.",
+    "author": "Mary Oliver",
+    "audioUrl": "podcasts/000012.m4a"
+  },
+  "000013": {
+    "type": "black",
+    "question": "If your calendar showed the next year honestly, what would be missing?",
+    "quote": "Tell me what you pay attention to and I will tell you who you are.",
+    "author": "José Ortega y Gasset",
+    "audioUrl": "podcasts/000013.m4a"
+  },
+  "000014": {
+    "type": "black",
+    "question": "If you had to place one bet on yourself, where would you put it?",
+    "quote": "Fortune favors the bold.",
+    "author": "Latin Proverb",
+    "audioUrl": "podcasts/000014.m4a"
+  },
+  "000015": {
+    "type": "black",
+    "question": "If success were guaranteed, what would you stop postponing?",
+    "quote": "Do the thing you fear, and the death of fear is certain.",
+    "author": "Ralph Waldo Emerson",
+    "audioUrl": "podcasts/000015.m4a"
+  },
+  "000016": {
+    "type": "white",
+    "question": "If someone replayed your last five difficult conversations, what pattern would they notice?",
+    "quote": "Between stimulus and response there is a space.",
+    "author": "Viktor Frankl",
+    "audioUrl": "podcasts/000016.m4a"
+  },
+  "000017": {
+    "type": "white",
+    "question": "If your phone showed how often you avoided something today, what would it reveal?",
+    "quote": "Avoidance maintains anxiety.",
+    "author": "Behavioral Psychology Principle",
+    "audioUrl": "podcasts/000017.m4a"
+  },
+  "000018": {
+    "type": "white",
+    "question": "If someone watched how you spend your evenings, what would they think you care about most?",
+    "quote": "Your life is the sum of what you focus on.",
+    "author": "Winifred Gallagher",
+    "audioUrl": "podcasts/000018.m4a"
+  },
+  "000019": {
+    "type": "white",
+    "question": "If you wrote down the excuse you use most often, what would it be protecting?",
+    "quote": "Excuses are the nails used to build a house of failure.",
+    "author": "Don Wilder",
+    "audioUrl": "podcasts/000019.m4a"
+  },
+  "000020": {
+    "type": "white",
+    "question": "If your body reacted honestly before your words did, what would it give away?",
+    "quote": "The body keeps the score.",
+    "author": "Bessel van der Kolk",
+    "audioUrl": "podcasts/000020.m4a"
+  }
 }
