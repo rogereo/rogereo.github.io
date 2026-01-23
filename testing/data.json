@@ -4,7 +4,7 @@
     "question": "What would you need to believe about yourself in order to dream without limits?",
     "quote": "Believe you can and you’re halfway there.",
     "author": "Theodore Roosevelt",
-    "audioUrl": "https://drive.google.com/uc?export=download&id=1Khd_iSazQxkhBfFC3Pge-3gMgEphkDGW"
+    "audioUrl": "podcasts/000001.m4a"
   },
   "000002": {
     "type": "black",
@@ -78,30 +78,30 @@
   },
   "000012": {
     "type": "black",
-    "question": "If you had to explain your current direction to your 18-year-old self, what would feel hardest to justify?",
-    "quote": "Live your life as an answer to the question of how to live.",
-    "author": "Mary Oliver",
+    "question": "Picture your deathbed. An interviewer leans in and asks: 'What was the point?' You have one sentence. Say it now.",
+    "quote": "He who has a why to live can bear almost any how.",
+    "author": "Friedrich Nietzsche",
     "audioUrl": "podcasts/000012.m4a"
   },
   "000013": {
     "type": "black",
-    "question": "If your calendar showed the next year honestly, what would be missing?",
-    "quote": "Tell me what you pay attention to and I will tell you who you are.",
-    "author": "José Ortega y Gasset",
+    "question": "The universe grants you immunity from failure for one attempt. Just one. What do you try? Why haven't you tried it anyway?",
+    "quote": "What would you attempt to do if you knew you could not fail?",
+    "author": "Robert H. Schuller",
     "audioUrl": "podcasts/000013.m4a"
   },
   "000014": {
     "type": "black",
-    "question": "If you had to place one bet on yourself, where would you put it?",
-    "quote": "Fortune favors the bold.",
-    "author": "Latin Proverb",
+    "question": "There's a parallel version of you who made the brave choice five years ago. What are they doing this morning that you're not?",
+    "quote": "In any moment of decision, the best thing you can do is the right thing. The worst is to do nothing.",
+    "author": "Theodore Roosevelt",
     "audioUrl": "podcasts/000014.m4a"
   },
   "000015": {
     "type": "black",
-    "question": "If success were guaranteed, what would you stop postponing?",
-    "quote": "Do the thing you fear, and the death of fear is certain.",
-    "author": "Ralph Waldo Emerson",
+    "question": "Fast-forward 20 years. Your grandchild asks: 'Did you ever go for it?' What do you want to be able to answer?",
+    "quote": "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do.",
+    "author": "Mark Twain",
     "audioUrl": "podcasts/000015.m4a"
   },
   "000016": {
@@ -113,37 +113,30 @@
   },
   "000017": {
     "type": "white",
-    "question": "If your phone showed how often you avoided something today, what would it reveal?",
-    "quote": "Avoidance maintains anxiety.",
-    "author": "Behavioral Psychology Principle",
+    "question": "Imagine you wake up tomorrow and nobody remembers you. No reputation. No history. Just you. Who would you finally allow yourself to be?",
+    "quote": "Freedom is what you do with what's been done to you.",
+    "author": "Jean-Paul Sartre",
     "audioUrl": "podcasts/000017.m4a"
   },
   "000018": {
     "type": "white",
-    "question": "If someone watched how you spend your evenings, what would they think you care about most?",
-    "quote": "Your life is the sum of what you focus on.",
-    "author": "Winifred Gallagher",
+    "question": "Your phone unlocks with your most repeated inner lie. What's the passcode?",
+    "quote": "Above all, don't lie to yourself.",
+    "author": "Fyodor Dostoevsky",
     "audioUrl": "podcasts/000018.m4a"
   },
   "000019": {
     "type": "white",
-    "question": "If you wrote down the excuse you use most often, what would it be protecting?",
-    "quote": "Excuses are the nails used to build a house of failure.",
-    "author": "Don Wilder",
+    "question": "If you could only be known for one single truth about yourself—not achievement, not role—what would you want that truth to be? Now: do you live like it?",
+    "quote": "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",
+    "author": "Ralph Waldo Emerson",
     "audioUrl": "podcasts/000019.m4a"
   },
   "000020": {
     "type": "white",
-    "question": "If your body reacted honestly before your words did, what would it give away?",
-    "quote": "The body keeps the score.",
-    "author": "Bessel van der Kolk",
+    "question": "A documentary camera follows you for 72 hours without your knowledge. Which scene would make you want the footage destroyed?",
+    "quote": "Character is what you do when nobody's watching.",
+    "author": "John Wooden",
     "audioUrl": "podcasts/000020.m4a"
-  },
-  "000026": {
-    "type": "white",
-    "question": "If you were radically honest, what would you admit you already know, but avoid acting on?",
-    "quote": "To know and not to do is not yet to know.",
-    "author": "Zen Proverb",
-    "audioUrl": "https://drive.google.com/uc?export=download&id=1PeyojUJ7IR2eSMd6_fZOXoB1DXgVNw3h"
   }
 }
