@@ -15,7 +15,7 @@ tags:
 ##### What happens when you give a small LLM control of its own ML experiments?
 
 <p align="center">
-  <img src="/assets/tracer-chart.png" loading="lazy" decoding="async">
+  <img src="/assets/tracer-ui.png" loading="lazy" decoding="async">
 </p>
 
 > Earlier this year, Andrej Karpathy released a small repo called AutoResearch: a pattern where you point an LLM at a research codebase and let it propose, run, and evaluate experiments on its own, in a loop. Most writeups that followed asked the same question: can it beat the benchmarks?
@@ -70,17 +70,32 @@ Every iteration takes the shape of a small research cycle: observe, hypothesise,
 
 > The inner loop is the model building strategy inside `train.py`. That part isn't fixed. The agent decides whether to do EDA or jump straight to modelling, whether to reach for logistic regression, random forests, XGBoost, feature engineering, imputation, ensembling, or hyperparameter tuning.
 
-My job wasn't to pick the algorithm in advance. My job was to build the loop, let the agent search, and report what it found.
-
 ### Compute
-> 
+
+> I ran the agent on Claude Haiku 4.5 through the Anthropic API. The cheap, fast tier, nominally weaker than Sonnet at reasoning. If autoresearch only works with the strongest model, that's a useful boundary. If Haiku is enough for tabular ML on a small dataset, that's also useful, and probably more relevant to most builders. The sandbox runs locally on my CPU. No GPU. Each `train.py` execution gets a 60-second timeout. Anything longer is killed and reverted. The budget pressure forces the agent to keep its experiments small, which keeps the trace readable. Across 24 runs and 154 iterations, total cost: $2.34
 
 ### Evaluation
-> 
 
+> 154 iterations is enough to read the run as a sequence. The agent moved the score from 0.7809 to 0.8235: 63 kept, 73 reverted, 6 crashes, 12 parser failures. Top public Kaggle scores sit around 0.81 to 0.82, so it landed where a decent first time entrant would. Three phases: a slow climb through feature engineering, one sharp jump from logistic regression to XGBoost, then a long flat tail. 
 
 <p align="center">
-  <img src="/assets/tracer-ui.png" loading="lazy" decoding="async">
+  <img src="/assets/tracer-chart.png" loading="lazy" decoding="async">
+</p>
+
+#### The breakthrough
+
+> For 20 iterations the agent stuck with logistic regression. Then in iteration 21 it changed strategy and the score jumped from 0.7907 to 0.8143. The biggest single move of the run. What's interesting isn't that it reached for XGBoost. It's that it named the reason first: the linear model couldn't capture the structure in the data
+
+<p align="center">
+  <img src="/assets/iteration-21.png" loading="lazy" decoding="async">
+</p>
+
+#### Where it got stuck
+
+> By iteration 76 the agent hit 0.8235 and stayed there for the next 78 iterations. It recognized the plateau correctly but kept proposing feature variants instead of another structural pivot like the XGBoost move
+
+<p align="center">
+  <img src="/assets/iteration-51.png" loading="lazy" decoding="async">
 </p>
 
 
@@ -88,11 +103,11 @@ My job wasn't to pick the algorithm in advance. My job was to build the loop, le
 > 
 
 ### Conclusion
-> 
+> One pattern across the run: when the agent won, it usually knew why. Eight of the nine times it beat the running best, it had named the reason before running the change. The same confidence showed up on plenty of reverts though, so the read-ahead worked on wins but not losses.
 
 -----
 References
 - [karpathy/autoresearch](https://github.com/karpathy/autoresearch) - Andrej Karpathy's original autoresearch repo
-- [A Guide to Andrej Karpathy's AutoResearch](https://www.datacamp.com/tutorial/guide-to-autoresearch) - DataCamp tutorial I used as reference to understand the pattern
+- [Guide to Autoresearch](https://www.datacamp.com/tutorial/guide-to-autoresearch) - DataCamp tutorial I read to understand the pattern
 - [Spaceship Titanic](https://www.kaggle.com/competitions/spaceship-titanic) - Kaggle competition page
 - [Claude Haiku 4.5](https://www.anthropic.com/news/claude-haiku-4-5) - the model used as the agent
