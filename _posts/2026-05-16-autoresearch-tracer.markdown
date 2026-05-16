@@ -40,33 +40,22 @@ The dataset never moves during the experiment. A fixed train/validation split (8
 ### Algorithm
 > The setup has two layers. An outer loop runs the research process. An inner loop is where the agent picks the actual ML approach.
 
-#### The outer loop: the autoresearch harness
+##### Outer Loop
 
-> The outer loop lets the agent run experiments independently. It has four parts:
+> The outer loop has four parts: `prepare.py` is the immutable evaluator that creates the 80/20 split and exposes `evaluate(predict_fn)`. `program.md` is the brief the agent reads every turn. `workspace/train.py` is the sandbox, the only file the agent rewrites. `orchestrator.py` is the harness that assembles the prompt, calls Claude Haiku 4.5, writes the new `train.py`, and runs it with a 60-second timeout. The new score is compared to the best so far. If it matches or beats it, the change is committed. If it crashes or regresses, Git resets the file. `train.py` can only move forward. The run stops after 15 iterations, $10 of cost, or 5 turns without improvement.
 
-- `prepare.py` is the evaluator. It creates a fixed 80/20 train-validation split with `random_state=42` and exposes one function, `evaluate(predict_fn)`. The file never changes, so every score is directly comparable.
-- `program.md` is the brief. It's the human written instruction file the agent reads every turn, defining the problem, rules, allowed libraries, timeout, required output format, and research directives.
-- `workspace/train.py` is the sandbox. The only file the agent rewrites. Its contract is simple: call `prepare.evaluate(predict_fn)` once and print `VAL_ACCURACY: 0.XXXX` as the final line.
-- `orchestrator.py` is the harness. Each turn it reads the brief, current code, notes, and recent history, sends them to Claude Haiku 4.5, parses the response, writes the new `train.py`, and runs it with a 60-second timeout.
+<p align="center">
+  <img src="/assets/outer-loop.png" alt="The Loop: prepare, program, train, orchestrate" loading="lazy" decoding="async">
+</p>
 
-> The new score is then compared to the best score so far. If it matches or beats it, the change is committed. If it crashes or regresses, Git resets the file. Failed experiments disappear. `train.py` can only move forward.
+##### Agent Reasoning
+> Each model response is parsed into six fields: reflection on the previous result, observations about what the agent notices, a hypothesis the next experiment will test, a plan for the specific change, the full new `train.py`, and any notes worth carrying forward. Every iteration takes the shape of a small research cycle: observe, hypothesise, act, evaluate.
 
-The run stops after 15 iterations, $10 of cost, or 5 turns without improvement.
+<p align="center">
+  <img src="/assets/agent-reasoning.png" alt="Agent reasoning: reflection, observations, hypothesis, plan, code, notes append" loading="lazy" decoding="async">
+</p>
 
-#### The agent's reasoning format
-
-Each model response is parsed into six fields:
-
-- **Reflection.** What the previous result showed.
-- **Observations.** What the agent notices.
-- **Hypothesis.** The claim the next experiment will test.
-- **Plan.** The specific change it will make.
-- **Code.** The full new `train.py`.
-- **Notes append.** Anything worth carrying forward.
-
-Every iteration takes the shape of a small research cycle: observe, hypothesise, act, evaluate.
-
-#### The inner loop: whatever the agent discovers
+##### Inner Loop
 
 > The inner loop is the model building strategy inside `train.py`. That part isn't fixed. The agent decides whether to do EDA or jump straight to modelling, whether to reach for logistic regression, random forests, XGBoost, feature engineering, imputation, ensembling, or hyperparameter tuning.
 
@@ -82,7 +71,7 @@ Every iteration takes the shape of a small research cycle: observe, hypothesise,
   <img src="/assets/tracer-chart.png" loading="lazy" decoding="async">
 </p>
 
-#### The breakthrough
+##### Breakthrough
 
 > For 20 iterations the agent stuck with logistic regression. Then in iteration 21 it changed strategy and the score jumped from 0.7907 to 0.8143. The biggest single move of the run. What's interesting isn't that it reached for XGBoost. It's that it named the reason first: the linear model couldn't capture the structure in the data
 
@@ -90,7 +79,7 @@ Every iteration takes the shape of a small research cycle: observe, hypothesise,
   <img src="/assets/iteration-21.png" loading="lazy" decoding="async">
 </p>
 
-#### Where it got stuck
+##### Where it got stuck
 
 > By iteration 76 the agent hit 0.8235 and stayed there for the next 78 iterations. It recognized the plateau correctly but kept proposing feature variants instead of another structural pivot like the XGBoost move
 
@@ -98,16 +87,19 @@ Every iteration takes the shape of a small research cycle: observe, hypothesise,
   <img src="/assets/iteration-51.png" loading="lazy" decoding="async">
 </p>
 
-
 ### Deployment
-> 
+> The full code is on [GitHub](https://github.com/rogereo/spaceship-titanic-autoresearch). Clone the repo and follow the setup instructions. A full run takes 30 to 60 minutes and costs a few cents. I found the trace most interesting. Every iteration writes one JSONL line with the agent's reflection, hypothesis, plan, code, stdout, and final status. An interactive viewer in the repo lets you click any iteration to see what it was thinking. If you don't want to run the loop yourself, read mine.
 
 ### Conclusion
-> One pattern across the run: when the agent won, it usually knew why. Eight of the nine times it beat the running best, it had named the reason before running the change. The same confidence showed up on plenty of reverts though, so the read-ahead worked on wins but not losses.
+> Give a small LLM control of its own ML experiments and it runs them. It improves the score. It plateaus, notices the plateau, and keeps running variations of what already worked. Two things I'd try next time. Run it on a stronger model (Sonnet, or Opus) to see whether the plateaus are a Haiku problem or a framework problem. Point the same loop at a harder problem, something with images or text, where feature engineering won't be enough. 154 experiments. $2.34. Cheap enough to be worth doing again.
 
 -----
 References
 - [karpathy/autoresearch](https://github.com/karpathy/autoresearch) - Andrej Karpathy's original autoresearch repo
 - [Guide to Autoresearch](https://www.datacamp.com/tutorial/guide-to-autoresearch) - DataCamp tutorial I read to understand the pattern
+- [Karpathy's announcement thread](https://x.com/karpathy/status/2030371219518931079) - the original X post introducing the repo
 - [Spaceship Titanic](https://www.kaggle.com/competitions/spaceship-titanic) - Kaggle competition page
 - [Claude Haiku 4.5](https://www.anthropic.com/news/claude-haiku-4-5) - the model used as the agent
+- [Anthropic API docs](https://docs.claude.com) - for setting up the API key and rate-limiting calls
+- [XGBoost docs](https://xgboost.readthedocs.io/) - the model class the agent landed on
+- [scikit-learn](https://scikit-learn.org/) - the library the sandbox runs on
