@@ -64,7 +64,7 @@ The dataset never moves during the experiment. A fixed train/validation split (8
 
 ### Evaluation
 
-> 154 iterations is enough to read the run as a sequence. The agent moved the score from 0.7809 to 0.8235: 63 kept, 73 reverted, 6 crashes, 12 parser failures. Top public Kaggle scores sit around 0.81 to 0.82, so it landed where a decent first time entrant would. Three phases: a slow climb through feature engineering, one sharp jump from logistic regression to XGBoost, then a long flat tail. 
+> 154 iterations is enough to read the run as a sequence. The agent moved the score from 0.7809 to 0.8235: 63 kept, 73 reverted, 6 crashes, 12 parser failures. Three phases: a slow climb through feature engineering, one sharp jump from logistic regression to XGBoost, then a long flat tail.
 
 <p align="center">
   <img src="/assets/tracer-chart.png" loading="lazy" decoding="async">
