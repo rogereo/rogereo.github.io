@@ -19,7 +19,7 @@ To find out, I built a minimal version of the pattern, pointed it at the Spacesh
 154 iterations and $2.34 later, here I am.
 
 <p align="center">
-  <img src="/assets/trace-viewer.png" alt="NASA" loading="lazy" decoding="async">
+  <img src="/assets/trace-ui.png" alt="NASA" loading="lazy" decoding="async">
 </p>
 
 ### Data 
@@ -32,18 +32,18 @@ The dataset never moves during the experiment. A fixed train/validation split (8
 
 
 ### Algorithm
-The setup has two layers. An outer loop runs the research process. An inner loop is where the agent picks the actual ML approach.
+> The setup has two layers. An outer loop runs the research process. An inner loop is where the agent picks the actual ML approach.
 
 #### The outer loop: the autoresearch harness
 
-The outer loop lets the agent run experiments independently. It has four parts:
+> The outer loop lets the agent run experiments independently. It has four parts:
 
 - `prepare.py` is the evaluator. It creates a fixed 80/20 train-validation split with `random_state=42` and exposes one function, `evaluate(predict_fn)`. The file never changes, so every score is directly comparable.
 - `program.md` is the brief. It's the human written instruction file the agent reads every turn, defining the problem, rules, allowed libraries, timeout, required output format, and research directives.
 - `workspace/train.py` is the sandbox. The only file the agent rewrites. Its contract is simple: call `prepare.evaluate(predict_fn)` once and print `VAL_ACCURACY: 0.XXXX` as the final line.
 - `orchestrator.py` is the harness. Each turn it reads the brief, current code, notes, and recent history, sends them to Claude Haiku 4.5, parses the response, writes the new `train.py`, and runs it with a 60-second timeout.
 
-The new score is then compared to the best score so far. If it matches or beats it, the change is committed. If it crashes or regresses, Git resets the file. Failed experiments disappear. `train.py` can only move forward.
+> The new score is then compared to the best score so far. If it matches or beats it, the change is committed. If it crashes or regresses, Git resets the file. Failed experiments disappear. `train.py` can only move forward.
 
 The run stops after 15 iterations, $10 of cost, or 5 turns without improvement.
 
@@ -62,7 +62,7 @@ Every iteration takes the shape of a small research cycle: observe, hypothesise,
 
 #### The inner loop: whatever the agent discovers
 
-The inner loop is the model building strategy inside `train.py`. That part isn't fixed. The agent decides whether to do EDA or jump straight to modelling, whether to reach for logistic regression, random forests, XGBoost, feature engineering, imputation, ensembling, or hyperparameter tuning.
+> The inner loop is the model building strategy inside `train.py`. That part isn't fixed. The agent decides whether to do EDA or jump straight to modelling, whether to reach for logistic regression, random forests, XGBoost, feature engineering, imputation, ensembling, or hyperparameter tuning.
 
 My job wasn't to pick the algorithm in advance. My job was to build the loop, let the agent search, and report what it found.
 
