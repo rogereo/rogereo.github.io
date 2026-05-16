@@ -60,7 +60,7 @@ The dataset never moves during the experiment. A fixed train/validation split (8
 
 ### Compute
 
-> I ran the agent on Claude Haiku 4.5 through the Anthropic API. The cheap, fast tier, nominally weaker than Sonnet at reasoning. If autoresearch only works with the strongest model, that's a useful boundary. If Haiku is enough for tabular ML on a small dataset, that's also useful, and probably more relevant to most builders. The sandbox runs locally on my CPU. No GPU. Each `train.py` execution gets a 60-second timeout. Anything longer is killed and reverted. The budget pressure forces the agent to keep its experiments small, which keeps the trace readable. Across 24 runs and 154 iterations, total cost: $2.34
+> I ran the agent on Claude Haiku 4.5 through the Anthropic API. The cheap, fast tier, nominally weaker than Sonnet at reasoning. If autoresearch only works with the strongest model, that's a useful boundary. If Haiku is enough for tabular ML on a small dataset, that's also useful, and probably more relevant to most builders. The sandbox runs locally on my CPU. Each `train.py` execution gets a 60-second timeout. Anything longer is killed and reverted. The budget pressure forces the agent to keep its experiments small, which keeps the trace readable. Across 24 runs and 154 iterations, total cost: $2.34
 
 ### Evaluation
 
