@@ -13,14 +13,15 @@ tags:
 
 ### Question
 ##### What happens when you give a small LLM control of its own ML experiments?
+
+<p align="center">
+  <img src="/assets/tracer-chart.png" loading="lazy" decoding="async">
+</p>
+
 > Earlier this year, Andrej Karpathy released a small repo called AutoResearch: a pattern where you point an LLM at a research codebase and let it propose, run, and evaluate experiments on its own, in a loop. Most writeups that followed asked the same question: can it beat the benchmarks?
 I wanted to ask a different one. I came across the repo and wanted to reimplement it, partly to understand it, but mostly because I was curious about something else. An ML problem is a fixed environment. The goal never changes: improve the score. So what does a small LLM actually do inside that box? What does it try first, before any feedback exists? Where does it get stuck? When does it surprise you? What does it never think to try?
 To find out, I built a minimal version of the pattern, pointed it at the Spaceship Titanic Kaggle problem, gave it a cheap model, and read the trace.
 154 iterations and $2.34 later, here I am.
-
-<p align="center">
-  <img src="/assets/tracer-ui.png" loading="lazy" decoding="async">
-</p>
 
 ### Data 
 
