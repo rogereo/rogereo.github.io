@@ -1,0 +1,230 @@
+Configuration file: C:/Roger/Creating/Blog/rogereo.github.io/_config.yml
+            Source: C:/Roger/Creating/Blog/rogereo.github.io
+       Destination: C:/Roger/Creating/Blog/rogereo.github.io/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+                    done in 14.915 seconds.
+ Auto-regeneration: enabled for 'C:/Roger/Creating/Blog/rogereo.github.io'
+LiveReload address: http://127.0.0.1:35729
+    Server address: http://127.0.0.1:4000/
+  Server running... press ctrl-c to stop.
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:44
+                    .jekyll-preview.out.log
+                    ...done in 0.5724561 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:45
+                    .jekyll-preview.out.log
+                    ...done in 0.5054594 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:46
+                    .jekyll-preview.out.log
+                    ...done in 0.4754464 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:47
+                    .jekyll-preview.out.log
+                    ...done in 0.4758754 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:48
+                    .jekyll-preview.out.log
+                    ...done in 0.4313162 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:49
+                    .jekyll-preview.out.log
+                    ...done in 0.4031812 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:50
+                    .jekyll-preview.out.log
+                    ...done in 0.4405902 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:51
+                    .jekyll-preview.out.log
+                    ...done in 0.4852308 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:52
+                    .jekyll-preview.out.log
+                    ...done in 0.4404654 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:53
+                    .jekyll-preview.out.log
+                    ...done in 0.4631889 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:54
+                    .jekyll-preview.out.log
+                    ...done in 0.4750356 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:55
+                    .jekyll-preview.out.log
+                    ...done in 0.4816147 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:56
+                    .jekyll-preview.out.log
+                    ...done in 0.4457579 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:57
+                    .jekyll-preview.out.log
+                    ...done in 0.4226256 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:58
+                    .jekyll-preview.out.log
+                    ...done in 0.4338215 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:13:59
+                    .jekyll-preview.out.log
+                    ...done in 0.4415301 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:00
+                    .jekyll-preview.out.log
+                    ...done in 0.4176472 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:01
+                    .jekyll-preview.out.log
+                    ...done in 0.4022332 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:02
+                    .jekyll-preview.out.log
+[2026-05-18 19:14:02] ERROR Errno::ECONNRESET: An existing connection was forcibly closed by the remote host. @ io_fillbuf - fd:8 
+	C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/webrick-1.9.1/lib/webrick/httpserver.rb:82:in 'IO#eof?'
+	C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/webrick-1.9.1/lib/webrick/httpserver.rb:82:in 'WEBrick::HTTPServer#run'
+	C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/webrick-1.9.1/lib/webrick/server.rb:310:in 'block in WEBrick::GenericServer#start_thread'
+                    ...done in 0.5409983 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:03
+                    .jekyll-preview.out.log
+                    ...done in 0.4270267 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:04
+                    .jekyll-preview.out.log
+                    ...done in 0.459948 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:05
+                    .jekyll-preview.out.log
+                    ...done in 0.4931503 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:06
+                    .jekyll-preview.out.log
+                    ...done in 0.439237 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:07
+                    .jekyll-preview.out.log
+                    ...done in 0.4904768 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:08
+                    .jekyll-preview.out.log
+                    ...done in 0.4857561 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:09
+                    .jekyll-preview.out.log
+                    ...done in 0.4633298 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:10
+                    .jekyll-preview.out.log
+                    ...done in 0.4338184 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:11
+                    .jekyll-preview.out.log
+                    ...done in 0.3929519 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:12
+                    .jekyll-preview.out.log
+                    ...done in 0.3703788 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:13
+                    .jekyll-preview.out.log
+                    ...done in 0.4155545 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:14
+                    .jekyll-preview.out.log
+                    ...done in 0.591099 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:15
+                    .jekyll-preview.out.log
+                    ...done in 0.5297405 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:16
+                    .jekyll-preview.out.log
+                    ...done in 0.4443352 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:17
+                    .jekyll-preview.out.log
+                    ...done in 0.415629 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:18
+                    .jekyll-preview.out.log
+                    ...done in 0.6052151 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:19
+                    .jekyll-preview.out.log
+                    ...done in 0.4727441 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:20
+                    .jekyll-preview.out.log
+                    ...done in 0.4319207 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:21
+                    .jekyll-preview.out.log
+                    ...done in 0.5612757 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:22
+                    .jekyll-preview.out.log
+                    ...done in 0.4940234 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:23
+                    .jekyll-preview.out.log
+                    ...done in 0.4917459 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:24
+                    .jekyll-preview.out.log
+                    ...done in 0.4794757 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:25
+                    .jekyll-preview.out.log
+                    ...done in 0.4947626 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:26
+                    .jekyll-preview.out.log
+                    ...done in 0.4868295 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:27
+                    .jekyll-preview.out.log
+                    ...done in 0.4729767 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:28
+                    .jekyll-preview.out.log
+                    ...done in 0.4378811 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:29
+                    .jekyll-preview.out.log
+                    ...done in 0.4794578 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:30
+                    .jekyll-preview.out.log
+                    ...done in 0.4670665 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:31
+                    .jekyll-preview.out.log
+                    ...done in 0.7566156 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:32
+                    .jekyll-preview.out.log
+                    ...done in 0.5731936 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:33
+                    .jekyll-preview.out.log
+                    ...done in 0.5049732 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:34
+                    .jekyll-preview.out.log
+                    ...done in 0.6984726 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:35
+                    .jekyll-preview.out.log
+                    ...done in 0.6012604 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:36
+                    .jekyll-preview.out.log
+                    ...done in 0.5652552 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-05-18 19:14:37
+                    .jekyll-preview.out.log
+                    ...done in 0.5338408 seconds.
+                    
