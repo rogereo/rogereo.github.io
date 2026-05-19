@@ -34,7 +34,6 @@ Binary classification. 8,693 training rows. 14 columns covering passenger identi
 I picked this over the original Titanic for two reasons.
 First, the features hide useful structure. PassengerId encodes travel groups. Cabin splits into deck, room, and side. The spending columns interact strongly with CryoSleep, because passengers that are 'sleeping' cannot spend. None of this is handed to you in the column descriptions. An agent has to discover it.
 Second, I like the idea of space exploration. 
-The dataset never moves during the experiment. A fixed train/validation split (80/20, stratified, random_state=42) lives in prepare.py, an immutable file the agent can't touch. Every score the agent produces is comparable to every other. That's what makes the trace readable as a sequence.
 
 
 ### Algorithm
@@ -61,7 +60,7 @@ The dataset never moves during the experiment. A fixed train/validation split (8
 
 ### Compute
 
-> I ran the agent on Claude Haiku 4.5 through the Anthropic API. The cheap, fast tier, nominally weaker than Sonnet at reasoning. If autoresearch only works with the strongest model, that's a useful boundary. If Haiku is enough for tabular ML on a small dataset, that's also useful, and probably more relevant to most builders. The sandbox runs locally on my CPU. Each `train.py` execution gets a 60-second timeout. Anything longer is killed and reverted. The budget pressure forces the agent to keep its experiments small, which keeps the trace readable. Across 24 runs and 154 iterations, total cost: $2.34
+> I ran the agent on Claude Haiku 4.5 through the Anthropic API. The cheapest tier Anthropic offers, weaker than Sonnet or Opus at reasoning. If Haiku is enough for tabular ML on a small dataset, that's a useful result. If it isn't, that tells you where autoresearch breaks. The sandbox runs locally on my CPU. Each `train.py` execution gets a 60-second timeout. Anything longer is killed and reverted. The budget pressure forces the agent to keep its experiments small, which keeps the trace readable. Across 24 runs and 154 iterations, total cost: $2.34
 
 ### Evaluation
 
