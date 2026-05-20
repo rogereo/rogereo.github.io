@@ -208,7 +208,7 @@ tags:
   <img src="/assets/sleep-score.png" loading="lazy" decoding="async">
 </p>
 
-> The Apr 11 and Apr 24 dips are the kind of bad nights I would not have logged honestly in the morning. The dashboard catches what a feeling misses.
+> The mid-May slide is the part I am watching: scores hit their lowest right when the taper should feel like rest. A feeling would have missed it. 
 
 <p align="center">
   <img src="/assets/sleep-stages.png" loading="lazy" decoding="async">
@@ -220,11 +220,11 @@ tags:
   <img src="/assets/stage-composition.png" loading="lazy" decoding="async">
 </p>
 
-> Deep sleep hovers at 11–15%, the bottom of the typical 13–23% range. Enough hours, not enough depth. That is the gap to close.
+> Deep sleep mostly sits at the bottom of the typical 13–23% range. It climbed through early May, then fell back toward 10% right as race week arrived. The depth I was building is exactly what I do not want to be losing now.
 
 ### Final Thoughts
 
-> The first attempt left a question hanging. Can I actually do this, or did I just do half of it? The second attempt is the answer. Same challenge, sharper system. Two marathons in one weekend is still the goal. This time, I am running the system as much as the distance.
+> Last year the road marathon was cancelled and the question stayed open: could I have finished both? I never got to find out. This time I do. Same challenge, sharper system, one weekend to settle it.
 
 -----
 References
