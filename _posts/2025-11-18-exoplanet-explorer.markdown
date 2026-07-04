@@ -28,7 +28,7 @@ tags:
   </video>
 </p>
 
-> The visual above shows the [transit method](https://science.nasa.gov/mission/roman-space-telescope/transit-method/), a technique used to detect [exoplanets](https://science.nasa.gov/exoplanets/). Planets that orbit stars outside our solar system. It detects exoplanets by observing slight, regular dips in a star’s light as a planet passes in front. Thousands of exoplanets have been discovered, with some estimates suggesting there could be at least one planet for every star in the galaxy. 
+> The visual above shows the [transit method](https://science.nasa.gov/mission/roman-space-telescope/transit-method/), a technique used to detect [exoplanets](https://science.nasa.gov/exoplanets/). Planets that orbit stars outside our solar system. It detects exoplanets by observing slight, regular dips in a star’s light as a planet passes in front. Thousands of exoplanets have been discovered, with some estimates suggesting there could be at least one planet for every star in the galaxy. Our galaxy alone has 100 to 400 billion stars, and with at least one planet per star, that's roughly the same number of exoplanets. Mind blowing. To put that in perspective, if you counted one exoplanet every second, non-stop, it would take you somewhere between 3,200 and 12,700 years to finish.
 
 <p align="center">
   <img src="/assets/NasaSpaceApps.png" alt="NASA" loading="lazy" decoding="async">
